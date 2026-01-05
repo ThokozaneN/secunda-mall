@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Space - Secunda Mall Retail Opportunities</title>
+    <meta name="description" content="Prime retail space available at Secunda Mall. Join Mpumalanga's premier shopping destination with excellent foot traffic and modern facilities.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Page Transition Overlay */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 50%, #12304a 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        
+        .page-transition.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .page-transition-logo {
+            width: 300px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .page-transition.active .page-transition-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Loading dots animation */
+        .loading-dots {
+            display: flex;
+            position: absolute;
+            bottom: 40px;
+            gap: 8px;
+        }
+        
+        .loading-dots span {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: loadingDot 1.4s infinite ease-in-out;
+        }
+        
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes loadingDot {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Prevent scroll during transition */
+        body.transition-active {
+            overflow: hidden;
+        }
+        
+        /* Smooth fade-in for page content */
+        .page-content {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .page-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Lease Page Specific Styles */
+        .benefit-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .benefit-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .space-type-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .space-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: #3f8abe;
+        }
+        
+        .space-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #3f8abe;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
+            color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+        }
+        
+        .stats-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .stats-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .stats-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Animation Classes */
+        .gsap-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .gsap-fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .gsap-fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        
+        .gsap-scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        .gsap-stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        /* Hero Parallax */
+        .hero-parallax-image {
+            will-change: transform;
+        }
+        
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #3f8abe, #2c668f);
+            z-index: 100;
+            transition: width 0.1s ease;
+        }
+        
+        /* Fix for navbar visibility */
+        nav {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        
+        nav.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3f8abe;
+            box-shadow: 0 0 0 3px rgba(63, 138, 190, 0.1);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        /* Process Timeline */
+        .process-timeline {
+            position: relative;
+        }
+        
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #3f8abe, #2c668f);
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 4rem;
+            margin-bottom: 3rem;
+        }
+        
+        .process-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .process-step-number {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            z-index: 1;
+        }
+        
+        /* CTA Button Animation */
+        .cta-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .cta-button:hover::after {
+            left: 100%;
+        }
+        
+        /* Question Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 1.5rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(30px) scale(0.9);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .close-modal-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-modal-btn:hover {
+            color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        /* Scrollbar styling for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 overflow-hidden">
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+
+    <!-- Page Transition Overlay -->
+    <div id="page-transition" class="page-transition">
+        <div class="text-center">
+            <img src="images/logo.png" alt="Secunda Mall" class="page-transition-logo">
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Modal -->
+    <div id="question-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-xl font-bold text-gray-900">Ask a Question</h3>
+                <button id="close-question-modal" class="close-modal-btn">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="questionForm" class="space-y-5">
+                    <div>
+                        <label class="form-label">Your Name *</label>
+                        <input type="text" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" placeholder="(XXX) XXX-XXXX">
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Question Category *</label>
+                        <select class="form-input" required>
+                            <option value="">Select category</option>
+                            <option value="leasing">Leasing Process & Terms</option>
+                            <option value="space">Space Availability & Sizes</option>
+                            <option value="costs">Rental Costs & Incentives</option>
+                            <option value="design">Store Design & Fit-out</option>
+                            <option value="marketing">Marketing & Promotion</option>
+                            <option value="facilities">Facilities & Services</option>
+                            <option value="other">Other Question</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Your Question *</label>
+                        <textarea class="form-input h-40" placeholder="Please provide details about your question..." required></textarea>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" id="contact-consent" class="h-4 w-4 text-[#3f8abe] border-gray-300 rounded" required>
+                        <label for="contact-consent" class="ml-2 text-sm text-gray-600">
+                            I consent to being contacted regarding my question *
+                        </label>
+                    </div>
+                    
+                    <div class="pt-2">
+                        <button type="submit" class="w-full cta-button bg-[#3f8abe] text-white px-6 py-3 rounded-full font-bold hover:bg-[#2c668f] transition duration-300">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Submit Question
+                        </button>
+                    </div>
+                    
+                    <p class="text-xs text-gray-500 text-center">
+                        We typically respond within 24 hours during business days.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-lg shadow-sm fixed w-full z-50 border-b border-white/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <img src="images/logo.png" alt="Secunda Mall" class="h-10 w-auto">
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Home</a>
+                    <a href="index.html#whatson" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">What's On</a>
+                    <a href="movies.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300" data-transition="movies">Movies</a>
+                    <a href="about.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">About</a>
+                    <a href="#" class="nav-link text-[#3f8abe] font-semibold transition duration-300 border-b-2 border-[#3f8abe]">Lease Space</a>
+                    <a href="contact.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Contact Us</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-md text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 focus:outline-none transition duration-300 flex flex-col justify-between h-8 w-10 overflow-hidden relative">
+                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2 -mt-2.5"></span>
+                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2"></span>
+                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2 mt-2.5"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 max-h-[80vh] overflow-y-auto shadow-xl">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a href="index.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Home</a>
+                <a href="index.html#whatson" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">What's On</a>
+                <a href="movies.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition" data-transition="movies">Movies</a>
+                <a href="about.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">About</a>
+                <a href="#" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-[#3f8abe] bg-blue-50">Lease Space</a>
+                <a href="contact.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="page-content pt-20">
+
+        <!-- Hero Section with Parallax -->
+        <section class="relative py-24 md:py-32 flex items-center justify-center text-center px-4 overflow-hidden bg-gradient-to-br from-[#3f8abe] to-[#12304a]">
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+                     alt="Retail Space" 
+                     class="hero-parallax-image w-full h-full object-cover opacity-30 scale-125">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/50"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-5xl mx-auto text-white">
+                <h1 class="gsap-fade-in text-5xl md:text-7xl font-bold mb-6 tracking-tighter">Prime Retail Space Available</h1>
+                <p class="gsap-fade-in text-xl md:text-2xl mb-8 font-light text-gray-200 max-w-3xl mx-auto">Join Mpumalanga's premier shopping destination at Secunda Mall</p>
+                <div class="gsap-fade-in flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="#enquiry-form" class="cta-button px-8 py-4 bg-white text-gray-900 font-bold rounded-full hover:bg-gray-100 transition duration-300 shadow-lg transform hover:-translate-y-1">
+                        Enquire Now <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#benefits" class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-full hover:bg-white/20 transition duration-300">
+                        View Benefits
+                    </a>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 text-white/60 animate-bounce">
+                <i class="fa-solid fa-chevron-down text-xl"></i>
+            </div>
+        </section>
+
+        <!-- Key Statistics Section -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Why Choose Secunda Mall?</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Position your business in the heart of Secunda's most vibrant shopping destination</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="stats-card gsap-stagger-item" data-delay="0">
+                        <div class="stats-number">90+</div>
+                        <div class="stats-label">Stores</div>
+                        <p class="text-sm opacity-90 mt-2">Diverse retail mix including major national brands</p>
+                    </div>
+                    
+                    <div class="stats-card gsap-stagger-item" data-delay="0.1">
+                        <div class="stats-number">2,435</div>
+                        <div class="stats-label">Parking Bays</div>
+                        <p class="text-sm opacity-90 mt-2">Ample free parking for maximum customer convenience</p>
+                    </div>
+                    
+                    <div class="stats-card gsap-stagger-item" data-delay="0.2">
+                        <div class="stats-number">30k+</div>
+                        <div class="stats-label">Weekly Visitors</div>
+                        <p class="text-sm opacity-90 mt-2">High foot traffic in Mpumalanga's busiest mall</p>
+                    </div>
+                    
+                    <div class="stats-card gsap-stagger-item" data-delay="0.3">
+                        <div class="stats-number">10+</div>
+                        <div class="stats-label">Years Established</div>
+                        <p class="text-sm opacity-90 mt-2">Trusted community destination since 2013</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="py-16 md:py-24 animated-gradient-bg overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Benefits of Leasing at Secunda Mall</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Comprehensive advantages for retailers looking to grow their business</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Benefit 1 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0">
+                        <div class="p-8">
+                            <div class="benefit-icon mx-auto">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-center">High Foot Traffic</h3>
+                            <p class="text-gray-600 mb-4">Position your store where thousands of shoppers visit weekly, ensuring maximum visibility and customer engagement.</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Consistent visitor flow throughout the week</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Peak weekend and holiday shopping periods</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Diverse demographic catchment area</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 2 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.1">
+                        <div class="p-8">
+                            <div class="benefit-icon mx-auto">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-center">Professional Management</h3>
+                            <p class="text-gray-600 mb-4">Managed by Broll Property Group, offering professional retail management and comprehensive tenant support.</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>24/7 security and maintenance</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Dedicated centre management team</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Regular marketing and promotional campaigns</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 3 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.2">
+                        <div class="p-8">
+                            <div class="benefit-icon mx-auto">
+                                <i class="fa-solid fa-store"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-center">Prime Location</h3>
+                            <p class="text-gray-600 mb-4">Strategically located in the heart of Secunda with excellent accessibility from all major routes.</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Easy access from Oliver Tambo Street</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Central location within residential areas</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Excellent visibility and signage opportunities</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 4 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.3">
+                        <div class="p-8">
+                            <div class="benefit-icon mx-auto">
+                                <i class="fa-solid fa-shield-alt"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-center">Modern Infrastructure</h3>
+                            <p class="text-gray-600 mb-4">State-of-the-art facilities designed to enhance customer experience and support retail operations.</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Climate-controlled environment</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Modern electrical and IT infrastructure</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Wheelchair accessible with elevators</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 5 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.4">
+                        <div class="p-8">
+                            <div class="benefit-icon mx-auto">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-center">Retail Synergy</h3>
+                            <p class="text-gray-600 mb-4">Benefit from complementary retail neighbours and major anchor tenants that drive customer traffic.</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Proximity to major anchors (Checkers, Woolworths, etc.)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Strategic placement within retail categories</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Cross-promotion opportunities with other tenants</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 6 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.5">
+                        <div class="p-8">
+                            <div class="benefit-icon mx-auto">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-center">Community Hub</h3>
+                            <p class="text-gray-600 mb-4">Be part of Secunda's premier community gathering space with regular events and activities.</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Regular mall events and promotions</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Family-friendly environment</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Strong local community engagement</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Available Space Types -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Available Space Types</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Flexible retail solutions to suit various business needs and sizes</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Standard Retail Unit -->
+                    <div class="space-type-card gsap-stagger-item" data-delay="0">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Standard Retail Unit" class="w-full h-48 object-cover">
+                            <span class="space-badge">Available</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-900">Standard Retail Units</h3>
+                            <p class="text-gray-600 mb-4">Ideal for established brands and specialty stores looking for prime retail space.</p>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Size Range:</span>
+                                    <span class="font-bold text-gray-900">50m² - 200m²</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Location:</span>
+                                    <span class="font-bold text-gray-900">Main Mall Areas</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Suitability:</span>
+                                    <span class="font-bold text-gray-900">Fashion, Electronics, Homeware</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Kiosk & Cart Locations -->
+                    <div class="space-type-card gsap-stagger-item" data-delay="0.1">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kiosk & Cart Locations" class="w-full h-48 object-cover">
+                            <span class="space-badge">Limited</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-900">Kiosk & Cart Locations</h3>
+                            <p class="text-gray-600 mb-4">Perfect for startups, seasonal businesses, or brands testing the market.</p>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Size Range:</span>
+                                    <span class="font-bold text-gray-900">5m² - 15m²</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Location:</span>
+                                    <span class="font-bold text-gray-900">High Traffic Corridors</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Suitability:</span>
+                                    <span class="font-bold text-gray-900">Accessories, Snacks, Services</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Restaurant & Food Court -->
+                    <div class="space-type-card gsap-stagger-item" data-delay="0.2">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Restaurant & Food Court" class="w-full h-48 object-cover">
+                            <span class="space-badge">Available</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-900">Restaurant & Food Court</h3>
+                            <p class="text-gray-600 mb-4">Purpose-built spaces for food and beverage operators with full kitchen facilities.</p>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Size Range:</span>
+                                    <span class="font-bold text-gray-900">100m² - 300m²</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Location:</span>
+                                    <span class="font-bold text-gray-900">Dining Pavilion</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Suitability:</span>
+                                    <span class="font-bold text-gray-900">Restaurants, Cafés, Fast Food</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center gsap-fade-in">
+                    <p class="text-gray-600 mb-6">Looking for a different space configuration? Contact our leasing team for customized solutions.</p>
+                    <a href="#enquiry-form" class="cta-button inline-flex items-center bg-[#3f8abe] text-white px-8 py-3 rounded-full font-bold hover:bg-[#2c668f] transition">
+                        Custom Space Inquiry <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leasing Process -->
+        <section class="py-16 md:py-24 bg-gray-900 text-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Our Leasing Process</h2>
+                    <p class="text-gray-300 max-w-2xl mx-auto">A streamlined approach to help you establish your business at Secunda Mall</p>
+                </div>
+                
+                <div class="process-timeline max-w-3xl mx-auto">
+                    <!-- Step 1 -->
+                    <div class="process-step gsap-stagger-item" data-delay="0">
+                        <div class="process-step-number">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Initial Inquiry</h3>
+                            <p class="text-gray-300 mb-3">Submit your business details and space requirements through our online form or contact our leasing team directly.</p>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Business concept review</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Space availability assessment</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="process-step gsap-stagger-item" data-delay="0.1">
+                        <div class="process-step-number">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Site Visit & Evaluation</h3>
+                            <p class="text-gray-300 mb-3">Tour available spaces with our leasing team to assess suitability and discuss specific requirements.</p>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Space measurements and specifications</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Fit-out planning assistance</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="process-step gsap-stagger-item" data-delay="0.2">
+                        <div class="process-step-number">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Proposal & Negotiation</h3>
+                            <p class="text-gray-300 mb-3">Receive a comprehensive leasing proposal including rental terms, incentives, and timeline.</p>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Rental structure and terms</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Tenant installation allowance</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="process-step gsap-stagger-item" data-delay="0.3">
+                        <div class="process-step-number">4</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Approval & Documentation</h3>
+                            <p class="text-gray-300 mb-3">Complete the necessary documentation and secure final approvals for your tenancy.</p>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Lease agreement preparation</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Business registration verification</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5 -->
+                    <div class="process-step gsap-stagger-item" data-delay="0.4">
+                        <div class="process-step-number">5</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Fit-Out & Opening</h3>
+                            <p class="text-gray-300 mb-3">Work with our approved contractors to complete your store fit-out and prepare for opening.</p>
+                            <ul class="text-sm text-gray-400 space-y-1">
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Store design and construction</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                    <span>Grand opening marketing support</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center gsap-fade-in">
+                    <p class="text-gray-300 mb-6">Our average process time from inquiry to opening is 8-12 weeks, depending on fit-out requirements.</p>
+                    <a href="#enquiry-form" class="cta-button inline-flex items-center bg-white text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+                        Start the Process <i class="fa-solid fa-play ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leasing Team -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Meet Our Leasing Team</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Our dedicated professionals are here to help you find the perfect space for your business</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Gugu Jiana -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0">
+                        <div class="p-8 text-center">
+                            <div class="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                GJ
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Gugu Jiana</h3>
+                            <p class="text-[#3f8abe] font-medium mb-4">Leasing Administrator</p>
+                            <p class="text-gray-600 mb-6">Specializing in retail space allocation and tenant coordination with over 5 years of experience in commercial leasing.</p>
+                            <div class="space-y-2">
+                                <a href="mailto:gjiana@broll.com" class="block text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> gjiana@broll.com
+                                </a>
+                                <a href="tel:0176319710" class="block text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-phone mr-2"></i> (017) 631 9710
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- General Manager -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.1">
+                        <div class="p-8 text-center">
+                            <div class="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                MN
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Michelle Nell</h3>
+                            <p class="text-[#3f8abe] font-medium mb-4">General Manager</p>
+                            <p class="text-gray-600 mb-6">Oversees overall mall operations and strategic leasing decisions with 10+ years in retail property management.</p>
+                            <div class="space-y-2">
+                                <a href="mailto:mnell@broll.com" class="block text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> mnell@broll.com
+                                </a>
+                                <a href="tel:0100010254" class="block text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0254
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Marketing Manager -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.2">
+                        <div class="p-8 text-center">
+                            <div class="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                DV
+                            </div>
+                            <h3 class="text-xl font-bold mb-1">Danelle Van Der Watt</h3>
+                            <p class="text-[#3f8abe] font-medium mb-4">Marketing Manager</p>
+                            <p class="text-gray-600 mb-6">Assists with brand positioning, marketing strategies, and promotional campaigns for new tenants.</p>
+                            <div class="space-y-2">
+                                <a href="mailto:dpotgieter@broll.com" class="block text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> dpotgieter@broll.com
+                                </a>
+                                <a href="tel:0176311123" class="block text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-phone mr-2"></i> (017) 631 1123
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enquiry Form -->
+        <section id="enquiry-form" class="py-16 md:py-24 animated-gradient-bg overflow-hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Request Leasing Information</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Complete the form below and our leasing team will contact you within 24 hours</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-xl p-8 gsap-scale-in">
+                    <form id="leasingForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" class="form-input" placeholder="Your full name" required>
+                            </div>
+                            <div>
+                                <label class="form-label">Company/Business Name *</label>
+                                <input type="text" class="form-input" placeholder="Your business name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" class="form-input" placeholder="you@example.com" required>
+                            </div>
+                            <div>
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-input" placeholder="(XXX) XXX-XXXX" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Business Type *</label>
+                            <select class="form-input" required>
+                                <option value="">Select business type</option>
+                                <option value="fashion">Fashion & Apparel</option>
+                                <option value="electronics">Electronics & Technology</option>
+                                <option value="food">Food & Beverage</option>
+                                <option value="beauty">Health & Beauty</option>
+                                <option value="home">Home & Decor</option>
+                                <option value="sports">Sports & Outdoor</option>
+                                <option value="services">Services</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Preferred Space Type *</label>
+                            <select class="form-input" required>
+                                <option value="">Select space type</option>
+                                <option value="standard">Standard Retail Unit</option>
+                                <option value="kiosk">Kiosk or Cart Location</option>
+                                <option value="restaurant">Restaurant/Food Court</option>
+                                <option value="large">Large Format Store</option>
+                                <option value="custom">Custom Requirements</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Approximate Space Requirements (m²)</label>
+                            <input type="text" class="form-input" placeholder="e.g., 50-100 m²">
+                        </div>
+                        
+                        <div>
+                            <label class="form-label">Additional Information</label>
+                            <textarea class="form-input h-32" placeholder="Tell us about your business concept, target market, and any specific requirements..."></textarea>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" id="newsletter" class="h-4 w-4 text-[#3f8abe] border-gray-300 rounded">
+                            <label for="newsletter" class="ml-2 text-sm text-gray-600">
+                                I'd like to receive updates about leasing opportunities and mall news
+                            </label>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="cta-button bg-[#3f8abe] text-white px-8 py-3 rounded-full font-bold hover:bg-[#2c668f] transition duration-300">
+                                Submit Enquiry <i class="fa-solid fa-paper-plane ml-2"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="text-xs text-gray-500 text-center">
+                            By submitting this form, you agree to our <a href="#" class="text-[#3f8abe] hover:underline">Privacy Policy</a> and consent to being contacted by our leasing team.
+                        </p>
+                    </form>
+                </div>
+                
+                <div class="mt-12 text-center gsap-fade-in">
+                    <div class="inline-flex items-center space-x-6">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-phone text-[#3f8abe] text-xl mr-3"></i>
+                            <div class="text-left">
+                                <p class="text-sm text-gray-500">Phone Enquiries</p>
+                                <a href="tel:0176319710" class="font-bold text-gray-900 hover:text-[#3f8abe] transition">(017) 631 9710</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-envelope text-[#3f8abe] text-xl mr-3"></i>
+                            <div class="text-left">
+                                <p class="text-sm text-gray-500">Email Enquiries</p>
+                                <a href="mailto:leasing@secundamall.co.za" class="font-bold text-gray-900 hover:text-[#3f8abe] transition">leasing@secundamall.co.za</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Frequently Asked Questions</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Common questions about leasing at Secunda Mall</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- FAQ 1 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold mb-3 text-gray-900">What are the typical lease terms at Secunda Mall?</h3>
+                            <p class="text-gray-600">Standard lease terms range from 3 to 5 years for retail units, with options for renewal. Shorter terms may be available for kiosks or seasonal businesses. All leases include standard escalation clauses and are subject to credit approval.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.05">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold mb-3 text-gray-900">Are there any incentives for new tenants?</h3>
+                            <p class="text-gray-600">Yes, we offer various incentives including rental assistance during the fit-out period, marketing support for grand openings, and in some cases, contribution toward tenant installation costs. These are negotiated on a case-by-case basis depending on the business type and lease term.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.1">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold mb-3 text-gray-900">What are the operating hours and trading restrictions?</h3>
+                            <p class="text-gray-600">Secunda Mall is open Monday to Sunday, with extended hours during peak seasons. Tenants are expected to maintain consistent trading hours. Specific restrictions may apply to certain product categories to maintain the mall's retail mix and brand standards.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.15">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold mb-3 text-gray-900">Is there support for store design and fit-out?</h3>
+                            <p class="text-gray-600">Yes, our management team provides guidelines and approved contractors for store fit-outs. We offer design consultation services and can connect you with experienced retail architects and contractors familiar with our mall specifications.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 5 -->
+                    <div class="benefit-card gsap-stagger-item" data-delay="0.2">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold mb-3 text-gray-900">What marketing support does the mall provide?</h3>
+                            <p class="text-gray-600">Tenants benefit from regular mall-wide marketing campaigns, digital marketing, social media promotion, seasonal events, and inclusion in the mall directory and website. Additional co-operative marketing opportunities are available throughout the year.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center gsap-fade-in">
+                    <p class="text-gray-600 mb-6">Have more questions? Our leasing team is ready to assist you.</p>
+                    <button id="open-question-modal" class="cta-button inline-flex items-center bg-[#3f8abe] text-white px-6 py-3 rounded-full font-bold hover:bg-[#2c668f] transition">
+                        <i class="fa-solid fa-question-circle mr-2"></i> Ask a Question
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="bg-gray-900 text-gray-300 py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Brand -->
+                    <div class="gsap-fade-in">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/600x150/111827/FFFFFF/png?text=SECUNDA+MALL" alt="Secunda Mall" class="h-8 w-auto">
+                        </div>
+                        <p class="text-sm text-gray-400 mb-6">Mpumalanga's premier shopping destination offering prime retail opportunities.</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="gsap-fade-in" data-delay="0.1">
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="index.html" class="hover:text-[#3f8abe] transition">Home</a></li>
+                            <li><a href="about.html" class="hover:text-[#3f8abe] transition">About Secunda Mall</a></li>
+                            <li><a href="movies.html" class="nav-link hover:text-[#3f8abe] transition" data-transition="movies">Movies & Cinema</a></li>
+                            <li><a href="lease.html" class="hover:text-[#3f8abe] transition">Leasing Information</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="gsap-fade-in" data-delay="0.2">
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Leasing Contacts</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-location-dot mt-1 mr-3 text-[#3f8abe]"></i>
+                                <span>Centre Management Office<br>Mezzanine Level, Secunda Mall</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-phone mr-3 text-[#3f8abe]"></i>
+                                <span>Leasing: (017) 631 9710</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-envelope mr-3 text-[#3f8abe]"></i>
+                                <span>leasing@secundamall.co.za</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="gsap-fade-in" data-delay="0.3">
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Retail Updates</h3>
+                        <p class="text-sm text-gray-400 mb-4">Subscribe for leasing opportunities and retail news.</p>
+                        <form onsubmit="event.preventDefault(); alert('Subscribed to retail updates!');" class="flex flex-col space-y-2">
+                            <input type="email" placeholder="Your email address" class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-[#3f8abe]">
+                            <button type="submit" class="bg-[#3f8abe] text-white px-4 py-2 rounded hover:bg-[#2c668f] transition font-medium">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-500 gsap-fade-in">
+                    <p>&copy; <span id="year"></span> Secunda Mall. All rights reserved. Managed by Broll Property Group.</p>
+                </div>
+                <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+            </div>
+        </footer>
+
+    </div> <!-- End of .page-content -->
+
+    <script src="script.js"></script>
+    <script>
+        // Page Transition Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const transitionOverlay = document.getElementById('page-transition');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageContent = document.querySelector('.page-content');
+            const nav = document.querySelector('nav');
+            
+            // Make page content visible
+            if (pageContent) {
+                setTimeout(() => {
+                    pageContent.classList.add('visible');
+                }, 100);
+            }
+            
+            // Make navbar visible immediately without animation
+            if (nav) {
+                // Remove any GSAP styles and show immediately
+                nav.style.opacity = '1';
+                nav.style.transform = 'translateY(0)';
+                nav.classList.add('visible');
+                
+                // Also ensure it's visible in the DOM immediately
+                gsap.set(nav, { opacity: 1, y: 0 });
+            }
+            
+            // Handle form submission (leasing form)
+            const leasingForm = document.getElementById('leasingForm');
+            if (leasingForm) {
+                leasingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your leasing enquiry! Our team will contact you within 24 hours.');
+                    leasingForm.reset();
+                    
+                    // Scroll to top of form
+                    document.getElementById('enquiry-form').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            // Handle form submission (question modal form)
+            const questionForm = document.getElementById('questionForm');
+            if (questionForm) {
+                questionForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your question! We will respond within 24 hours during business days.');
+                    questionForm.reset();
+                    
+                    // Close the modal
+                    toggleQuestionModal(false);
+                });
+            }
+            
+            // Modal functionality
+            const questionModal = document.getElementById('question-modal');
+            const openModalBtn = document.getElementById('open-question-modal');
+            const closeModalBtn = document.getElementById('close-question-modal');
+            
+            function toggleQuestionModal(show) {
+                if (show) {
+                    questionModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    questionModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', () => toggleQuestionModal(true));
+            }
+            
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', () => toggleQuestionModal(false));
+            }
+            
+            // Close modal when clicking outside
+            questionModal.addEventListener('click', (e) => {
+                if (e.target === questionModal) {
+                    toggleQuestionModal(false);
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && questionModal.classList.contains('active')) {
+                    toggleQuestionModal(false);
+                }
+            });
+            
+            // Handle navigation clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Check if it's an external link (to movies.html or other pages)
+                    if (href && (href.includes('.html') || href.includes('mailto:') || href.includes('tel:'))) {
+                        // For mailto and tel links, don't trigger transition
+                        if (href.startsWith('mailto:') || href.startsWith('tel:')) {
+                            return;
+                        }
+                        
+                        // Check if it's a hash link on the same page
+                        if (href.startsWith('#') && !this.hasAttribute('data-transition')) {
+                            return;
+                        }
+                        
+                        // Show transition overlay
+                        if (transitionOverlay) {
+                            e.preventDefault();
+                            transitionOverlay.classList.add('active');
+                            document.body.classList.add('transition-active');
+                            
+                            // Navigate after transition
+                            setTimeout(() => {
+                                window.location.href = href;
+                            }, 800);
+                        }
+                    }
+                });
+            });
+            
+            // Handle browser back/forward button
+            window.addEventListener('pageshow', function(event) {
+                // Hide transition overlay if it's visible
+                if (transitionOverlay && transitionOverlay.classList.contains('active')) {
+                    setTimeout(() => {
+                        transitionOverlay.classList.remove('active');
+                        document.body.classList.remove('transition-active');
+                    }, 300);
+                }
+                
+                // Make page content visible
+                if (pageContent) {
+                    setTimeout(() => {
+                        pageContent.classList.add('visible');
+                    }, 100);
+                }
+            });
+            
+            // Initialize GSAP Animations
+            initGSAPAnimations();
+        });
+        
+        function initGSAPAnimations() {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Hero Parallax Effect
+            const heroImage = document.querySelector('.hero-parallax-image');
+            if (heroImage) {
+                gsap.to(heroImage, {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: heroImage.parentElement,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            }
+            
+            // Scroll Progress Indicator
+            const scrollProgress = document.querySelector('.scroll-progress');
+            if (scrollProgress) {
+                gsap.to(scrollProgress, {
+                    width: "100%",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "body",
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 0.5
+                    }
+                });
+            }
+            
+            // Section animations (excluding navbar animation)
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                // Fade in sections
+                gsap.fromTo(section, 
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            end: "top 60%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+                
+                // Animate headings within sections
+                const headings = section.querySelectorAll('h1, h2, h3, h4');
+                if (headings.length > 0) {
+                    gsap.fromTo(headings,
+                        { opacity: 0, y: 30 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            stagger: 0.2,
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 85%",
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                }
+                
+                // Animate paragraphs within sections
+                const paragraphs = section.querySelectorAll('p');
+                if (paragraphs.length > 0) {
+                    gsap.fromTo(paragraphs,
+                        { opacity: 0, y: 20 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            stagger: 0.1,
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 80%",
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                }
+            });
+            
+            // Stagger animations for elements with data-delay attribute
+            const staggerItems = document.querySelectorAll('.gsap-stagger-item');
+            if (staggerItems.length > 0) {
+                ScrollTrigger.batch(staggerItems, {
+                    start: "top 85%",
+                    onEnter: batch => {
+                        batch.forEach((item, index) => {
+                            const delay = parseFloat(item.getAttribute('data-delay') || 0);
+                            gsap.fromTo(item,
+                                { opacity: 0, y: 30, scale: 0.9 },
+                                {
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1,
+                                    duration: 0.8,
+                                    delay: delay,
+                                    ease: "back.out(1.7)"
+                                }
+                            );
+                        });
+                    },
+                    once: true
+                });
+            }
+            
+            // Fade in animations for elements with gsap-fade-in classes
+            const fadeInElements = document.querySelectorAll('.gsap-fade-in');
+            fadeInElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Fade in from left animations
+            const fadeInLeftElements = document.querySelectorAll('.gsap-fade-in-left');
+            fadeInLeftElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, x: -50 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Fade in from right animations
+            const fadeInRightElements = document.querySelectorAll('.gsap-fade-in-right');
+            fadeInRightElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, x: 50 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Scale in animations
+            const scaleInElements = document.querySelectorAll('.gsap-scale-in');
+            scaleInElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, scale: 0.8 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.6,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Benefit card hover animations
+            const benefitCards = document.querySelectorAll('.benefit-card');
+            benefitCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        y: -8,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        y: 0,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+            
+            // Stats card hover animations
+            const statsCards = document.querySelectorAll('.stats-card');
+            statsCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+            
+            // Space type card hover animations
+            const spaceCards = document.querySelectorAll('.space-type-card');
+            spaceCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        y: -5,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        y: 0,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+            
+            // CTA button shine effect
+            const ctaButtons = document.querySelectorAll('.cta-button');
+            ctaButtons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    gsap.to(button, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    gsap.to(button, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+            
+            // Form input focus animations
+            const formInputs = document.querySelectorAll('.form-input');
+            formInputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    gsap.to(input, {
+                        scale: 1.02,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                });
+                
+                input.addEventListener('blur', () => {
+                    gsap.to(input, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>

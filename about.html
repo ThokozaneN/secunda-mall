@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Secunda Mall - My Mall. My Space</title>
+    <meta name="description" content="Learn about Secunda Mall - Mpumalanga's premier shopping destination since 2013. Discover our facilities, services, and management team.">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Page Transition Overlay */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 50%, #12304a 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        
+        .page-transition.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .page-transition-logo {
+            width: 300px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .page-transition.active .page-transition-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Loading dots animation */
+        .loading-dots {
+            display: flex;
+            position: absolute;
+            bottom: 40px;
+            gap: 8px;
+        }
+        
+        .loading-dots span {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: loadingDot 1.4s infinite ease-in-out;
+        }
+        
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes loadingDot {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Prevent scroll during transition */
+        body.transition-active {
+            overflow: hidden;
+        }
+        
+        /* Smooth fade-in for page content */
+        .page-content {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .page-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* About Page Specific Styles */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .team-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .facility-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: #3f8abe;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #3f8abe;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background: #e5e7eb;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
+            color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+        }
+        
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Animation Classes */
+        .gsap-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .gsap-fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .gsap-fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        
+        .gsap-scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        .gsap-stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        /* Hero Parallax */
+        .hero-parallax-image {
+            will-change: transform;
+        }
+        
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(to right, #3f8abe, #2c668f);
+            z-index: 100;
+            transition: width 0.1s ease;
+        }
+        
+        /* Fix for navbar visibility */
+        nav {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        
+        nav.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 overflow-hidden">
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+
+    <!-- Page Transition Overlay -->
+    <div id="page-transition" class="page-transition">
+        <div class="text-center">
+            <img src="https://placehold.co/600x150/FFFFFF/3f8abe/png?text=SECUNDA+MALL" alt="Secunda Mall" class="page-transition-logo">
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation (Same as index.html) -->
+    <nav class="bg-white/90 backdrop-blur-lg shadow-sm fixed w-full z-50 border-b border-white/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex-shrink-0 flex items-center">
+                        <img src="images/logo.png" alt="Secunda Mall" class="h-10 w-auto">
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Home</a>
+                    <a href="index.html#whatson" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">What's On</a>
+                    <a href="movies.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300" data-transition="movies">Movies</a>
+                    <a href="about.html" class="nav-link text-[#3f8abe] font-semibold transition duration-300 border-b-2 border-[#3f8abe]">About</a>
+                    <a href="lease.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Lease Space</a>
+                    <a href="contact.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Contact Us</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-md text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 focus:outline-none transition duration-300 flex flex-col justify-between h-8 w-10 overflow-hidden relative">
+                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2 -mt-2.5"></span>
+                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2"></span>
+                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2 mt-2.5"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 max-h-[80vh] overflow-y-auto shadow-xl">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a href="index.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Home</a>
+                <a href="index.html#whatson" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">What's On</a>
+                <a href="movies.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition" data-transition="movies">Movies</a>
+                <a href="about.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-[#3f8abe] bg-blue-50">About</a>
+                <a href="lease.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Lease Space</a>
+                <a href="contact.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="page-content pt-20">
+
+        <!-- Hero Section with Parallax -->
+        <section class="relative py-24 md:py-32 flex items-center justify-center text-center px-4 overflow-hidden bg-gradient-to-br from-[#3f8abe] to-[#12304a]">
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <img src="images/hero.jpg" 
+                     alt="Secunda Mall Interior" 
+                     class="hero-parallax-image w-full h-full object-cover opacity-20 scale-125">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-5xl mx-auto text-white">
+                <h1 class="gsap-fade-in text-5xl md:text-7xl font-bold mb-6 tracking-tighter">About Secunda Mall</h1>
+                <p class="gsap-fade-in text-xl md:text-2xl mb-8 font-light text-gray-200 max-w-3xl mx-auto">The premier shopping destination in Mpumalanga</p>
+                <div class="gsap-fade-in inline-block px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white font-bold text-lg">
+                    My Mall. My Space
+                </div>
+            </div>
+            
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 text-white/60 animate-bounce">
+                <i class="fa-solid fa-chevron-down text-xl"></i>
+            </div>
+        </section>
+
+        <!-- Introduction Section -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="gsap-fade-in-left">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Mpumalanga's Premier Shopping Experience</h2>
+                        <div class="timeline-item">
+                            <h3 class="text-xl font-bold mb-2 text-[#3f8abe]">Since October 2013</h3>
+                            <p class="text-gray-600 mb-4">Secunda Mall is the first, and only, fully-realised regional shopping experience for the residents of Secunda and the surrounding areas.</p>
+                            <p class="text-gray-600">Officially open since 23 October 2013, Secunda Mall offers customers a first class shopping, leisure and dining experience suitable for the whole family.</p>
+                        </div>
+                        
+                        <div class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-6">
+                            <div class="stat-card gsap-stagger-item" data-delay="0">
+                                <div class="stat-number">90+</div>
+                                <div class="stat-label">Stores</div>
+                            </div>
+                            <div class="stat-card gsap-stagger-item" data-delay="0.1">
+                                <div class="stat-number">6</div>
+                                <div class="stat-label">Cinemas</div>
+                            </div>
+                            <div class="stat-card gsap-stagger-item" data-delay="0.2">
+                                <div class="stat-number">2,435</div>
+                                <div class="stat-label">Parking Bays</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative gsap-fade-in-right">
+                        <img src="images/secundamall.png" alt="Secunda Mall Exterior" class="rounded-2xl shadow-2xl w-full">
+                        <div class="absolute -bottom-6 -right-6 bg-[#3f8abe] text-white p-6 rounded-2xl shadow-xl max-w-xs gsap-scale-in">
+                            <h4 class="font-bold text-lg mb-2">More Than Just a Mall</h4>
+                            <p class="text-sm">A meeting place for the community of Secunda, where families and friends gather to shop, socialise and play.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anchor Tenants Section -->
+        <section class="py-16 md:py-24 animated-gradient-bg overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Major Anchor Tenants</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">With over 90 stores including our major anchor tenants, Secunda Mall has cemented itself as the leading shopping and leisure experience in the region.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-cart-shopping text-3xl text-[#3f8abe]"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Checkers Hyper</h3>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.1">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-pink-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-shirt text-3xl text-pink-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Edgars</h3>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.2">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-gamepad text-3xl text-red-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Game</h3>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.3">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-basket-shopping text-3xl text-green-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Pick n Pay</h3>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.4">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-emerald-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-leaf text-3xl text-emerald-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Woolworths</h3>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center gsap-fade-in">
+                    <p class="text-gray-600">The shopping mix includes an array of major fashion, electronics, outdoor, home ware, health and beauty stores.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lease Space Section -->
+        <section class="py-16 md:py-24 bg-gray-900 text-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="gsap-fade-in-left">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-6">Prime Retail Space Available</h2>
+                        <p class="text-gray-300 mb-6">Join Mpumalanga's premier shopping destination and become part of a thriving retail community.</p>
+                        
+                        <div class="space-y-6 mb-8">
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-check-circle text-[#3f8abe] text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">High Traffic Location</h4>
+                                    <p class="text-gray-400">Position your business where thousands of shoppers visit daily.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-check-circle text-[#3f8abe] text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">Diverse Retail Mix</h4>
+                                    <p class="text-gray-400">Benefit from synergy with major anchor tenants and complementary stores.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-check-circle text-[#3f8abe] text-xl mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-bold text-lg mb-1">Professional Management</h4>
+                                    <p class="text-gray-400">Managed by Broll Property Group with dedicated support services.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="mailto:leasing@secundamall.co.za" class="inline-flex items-center bg-white text-gray-900 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">
+                            <i class="fa-solid fa-envelope mr-2"></i> Leasing Enquiries
+                        </a>
+                    </div>
+                    
+                    <div class="relative gsap-fade-in-right">
+                        <img src="images/mall.jpg" alt="Retail Space" class="rounded-2xl w-full">
+                        <div class="absolute -bottom-6 -left-6 bg-[#3f8abe] text-white p-6 rounded-2xl shadow-xl max-w-xs gsap-scale-in">
+                            <h4 class="font-bold text-lg mb-2">Strategic Location</h4>
+                            <p class="text-sm">Located in the heart of Secunda with excellent accessibility and visibility.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Management Team Section -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Centre Management</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Broll Property Group manages the Centre on behalf of the owners.</p>
+                </div>
+                
+                <div class="mb-12 bg-gray-50 rounded-2xl p-8 gsap-fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900">Office Hours</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-4 rounded-xl shadow gsap-stagger-item" data-delay="0">
+                            <h4 class="font-bold mb-2">Monday - Friday</h4>
+                            <p class="text-[#3f8abe] font-bold">7:00 - 18:00</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow gsap-stagger-item" data-delay="0.1">
+                            <h4 class="font-bold mb-2">Saturday</h4>
+                            <p class="text-[#3f8abe] font-bold">9:00 - 14:00</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow gsap-stagger-item" data-delay="0.2">
+                            <h4 class="font-bold mb-2">Sunday</h4>
+                            <p class="text-[#3f8abe] font-bold">9:00 - 14:00</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow gsap-stagger-item" data-delay="0.3">
+                            <h4 class="font-bold mb-2">Public Holidays</h4>
+                            <p class="text-[#3f8abe] font-bold">9:00 - 14:00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-bold mb-8 text-gray-900 gsap-fade-in">The Secunda Mall Team</h3>
+                <div class="team-grid">
+                    <!-- Team Member 1 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                MN
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Michelle Nell</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">General Manager</p>
+                            <div class="text-center">
+                                <a href="mailto:mnell@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> mnell@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 2 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0.05">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                DV
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Danelle Van Der Watt</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">Marketing Manager</p>
+                            <div class="text-center">
+                                <a href="mailto:dpotgieter@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> dpotgieter@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 3 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0.1">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                AG
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Aniel Grobler</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">Operations Manager</p>
+                            <div class="text-center">
+                                <a href="mailto:Jgrobler@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> Jgrobler@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 4 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0.15">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                JS
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Johan Stydom</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">Junior Operations Manager</p>
+                            <div class="text-center">
+                                <a href="mailto:jstrydom@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> jstrydom@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 5 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0.2">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                GJ
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Gugu Jiana</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">Leasing Administrator</p>
+                            <div class="text-center">
+                                <a href="mailto:gjiana@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> gjiana@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 6 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0.25">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                MVS
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Michanette Van Straaten</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">Debtors Administrator</p>
+                            <div class="text-center">
+                                <a href="mailto:mvanstraaten@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> mvanstraaten@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 7 -->
+                    <div class="team-card gsap-stagger-item" data-delay="0.3">
+                        <div class="p-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#3f8abe] to-[#2c668f] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                                CM
+                            </div>
+                            <h4 class="text-xl font-bold text-center mb-1">Cherity Mthembu</h4>
+                            <p class="text-[#3f8abe] text-center font-medium mb-4">Receptionist</p>
+                            <div class="text-center">
+                                <a href="mailto:cmthembu@broll.com" class="text-gray-600 hover:text-[#3f8abe] transition">
+                                    <i class="fa-solid fa-envelope mr-2"></i> cmthembu@broll.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center gsap-fade-in">
+                    <p class="text-gray-600 italic">"Our team is dedicated to making your shopping experience exceptional. Feel free to reach out to any of us with questions or feedback."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities & Services Section -->
+        <section class="py-16 md:py-24 animated-gradient-bg overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Facilities & Services</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Secunda Mall is committed to providing an accessible, comfortable, and convenient shopping experience for all visitors.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Facility 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0">
+                        <div class="facility-icon mx-auto">
+                            <i class="fa-solid fa-wheelchair"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Wheelchair Friendly</h3>
+                        <p class="text-gray-600 mb-4">Secunda Mall is a wheelchair friendly shopping centre. All levels are easily accessible with the use of elevators.</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Disabled restroom facilities available on both levels</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Disabled parking bays near all entrances</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Wheelchairs available at Security</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Facility 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.1">
+                        <div class="facility-icon mx-auto">
+                            <i class="fa-solid fa-restroom"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Restroom Facilities</h3>
+                        <p class="text-gray-600 mb-4">Clean, well-maintained restrooms with family-friendly amenities.</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Located between Nedbank & Clicks (lower level)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Located between Markham & Totalsports (upper level)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Baby changing rooms and family restrooms</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Facility 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.2">
+                        <div class="facility-icon mx-auto">
+                            <i class="fa-solid fa-child"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Family Friendly</h3>
+                        <p class="text-gray-600 mb-4">Designed with families in mind for a comfortable shopping experience.</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Moms and Tots Parking Bays at each entrance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Parent & child facilities in restrooms</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Baby changing stations at multiple locations</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Facility 4 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.3">
+                        <div class="facility-icon mx-auto">
+                            <i class="fa-solid fa-map-signs"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Electronic Directory</h3>
+                        <p class="text-gray-600 mb-4">State-of-the-art Electronic Directory Boards at all main entrances.</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Interactive digital maps</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Detailed store information</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Easy navigation for all visitors</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Facility 5 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.4">
+                        <div class="facility-icon mx-auto">
+                            <i class="fa-solid fa-paw"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Guide Dog Friendly</h3>
+                        <p class="text-gray-600 mb-4">Welcoming environment for visitors with guide dogs.</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Guide dogs are welcome in the Centre</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Assistance animals permitted</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-times text-gray-400 mt-1 mr-2"></i>
+                                <span>Other pets are not permitted</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Facility 6 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow gsap-stagger-item" data-delay="0.5">
+                        <div class="facility-icon mx-auto">
+                            <i class="fa-solid fa-parking"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-center">Parking</h3>
+                        <p class="text-gray-600 mb-4">Ample, convenient, and free parking for all visitors.</p>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>2,435 parking bays available</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>All parking is free of charge</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-[#3f8abe] mt-1 mr-2"></i>
+                                <span>Bike parking at Entrances 1, 3, and 4</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-12 bg-white rounded-2xl p-8 shadow-lg gsap-fade-in">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900">Centre Management Reception</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-600 mb-4">The Centre Management offices are located on the Mezzanine level, down the stairs next to Mr Price Home.</p>
+                            <div class="flex items-center mb-4">
+                                <i class="fa-solid fa-phone text-[#3f8abe] text-xl mr-4"></i>
+                                <div>
+                                    <p class="font-bold">Contact Centre Management</p>
+                                    <a href="tel:0100010254" class="text-gray-700 hover:text-[#3f8abe] transition">(010) 001 0254</a>
+                                </div>
+                            </div>
+                            <p class="text-gray-600">Our reception can assist you with directions, mall maps, lost and found items, compliments and complaints, and shop telephone numbers.</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-xl p-6 gsap-scale-in">
+                            <h4 class="font-bold mb-4">Reception Hours</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span>Weekdays:</span>
+                                    <span class="font-bold text-[#3f8abe]">07:00 – 18:00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Weekends:</span>
+                                    <span class="font-bold text-[#3f8abe]">09:00 – 14:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ATMs & Banking Section -->
+        <section class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 gsap-fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">ATMs & Banking Services</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Convenient access to banking services throughout the mall.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 gsap-stagger-item" data-delay="0">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-university text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">ABSA</h4>
+                        <p class="text-sm text-gray-600">ATM located within the ABSA branch</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 gsap-stagger-item" data-delay="0.1">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-university text-green-600"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">Nedbank</h4>
+                        <p class="text-sm text-gray-600">ATM located within the Nedbank branch</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 gsap-stagger-item" data-delay="0.2">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-university text-red-600"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">Standard Bank</h4>
+                        <p class="text-sm text-gray-600">ATM on lower level next to Pep</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 gsap-stagger-item" data-delay="0.3">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-university text-purple-600"></i>
+                        </div>
+                        <h4 class="font-bold mb-2">FNB & Capitec</h4>
+                        <p class="text-sm text-gray-600">ATMs at branches and entrance locations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer (Same as index.html) -->
+        <footer id="contact" class="bg-gray-900 text-gray-300 py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Brand -->
+                    <div class="gsap-fade-in">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/600x150/111827/FFFFFF/png?text=SECUNDA+MALL" alt="Secunda Mall" class="h-8 w-auto">
+                        </div>
+                        <p class="text-sm text-gray-400 mb-6">The premier shopping destination in Mpumalanga offering the best in fashion, food, and fun.</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="gsap-fade-in" data-delay="0.1">
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="index.html#home" class="hover:text-[#3f8abe] transition">Home</a></li>
+                            <li><a href="about.html" class="hover:text-[#3f8abe] transition">About Us</a></li>
+                            <li><a href="movies.html" class="nav-link hover:text-[#3f8abe] transition" data-transition="movies">Movies & Cinema</a></li>
+                            <li><a href="index.html#lease" class="hover:text-[#3f8abe] transition">Lease Space</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="gsap-fade-in" data-delay="0.2">
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Contact Us</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-location-dot mt-1 mr-3 text-[#3f8abe]"></i>
+                                <span>Louwrens Muller St,<br>Secunda, 2302</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-phone mr-3 text-[#3f8abe]"></i>
+                                <span>+27 17 634 6565</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-envelope mr-3 text-[#3f8abe]"></i>
+                                <span>info@secundamall.co.za</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="gsap-fade-in" data-delay="0.3">
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Newsletter</h3>
+                        <p class="text-sm text-gray-400 mb-4">Subscribe to get the latest updates and promotions.</p>
+                        <form onsubmit="event.preventDefault(); alert('Subscribed!');" class="flex flex-col space-y-2">
+                            <input type="email" placeholder="Your email address" class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-[#3f8abe]">
+                            <button type="submit" class="bg-[#3f8abe] text-white px-4 py-2 rounded hover:bg-[#2c668f] transition font-medium">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-500 gsap-fade-in">
+                    <p>&copy; <span id="year"></span> Secunda Mall. All rights reserved.</p>
+                </div>
+                <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+            </div>
+        </footer>
+
+    </div> <!-- End of .page-content -->
+
+    <script src="script.js"></script>
+    <script>
+        // Page Transition Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const transitionOverlay = document.getElementById('page-transition');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageContent = document.querySelector('.page-content');
+            const nav = document.querySelector('nav');
+            
+            // Make page content visible
+            if (pageContent) {
+                setTimeout(() => {
+                    pageContent.classList.add('visible');
+                }, 100);
+            }
+            
+            // Make navbar visible immediately without animation
+            if (nav) {
+                // Remove any GSAP styles and show immediately
+                nav.style.opacity = '1';
+                nav.style.transform = 'translateY(0)';
+                nav.classList.add('visible');
+                
+                // Also ensure it's visible in the DOM immediately
+                gsap.set(nav, { opacity: 1, y: 0 });
+            }
+            
+            // Handle navigation clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Check if it's an external link (to movies.html or other pages)
+                    if (href && (href.includes('.html') || href.includes('mailto:') || href.includes('tel:'))) {
+                        // For mailto and tel links, don't trigger transition
+                        if (href.startsWith('mailto:') || href.startsWith('tel:')) {
+                            return;
+                        }
+                        
+                        // Check if it's a hash link on the same page
+                        if (href.startsWith('#') && !this.hasAttribute('data-transition')) {
+                            return;
+                        }
+                        
+                        // Show transition overlay
+                        if (transitionOverlay) {
+                            e.preventDefault();
+                            transitionOverlay.classList.add('active');
+                            document.body.classList.add('transition-active');
+                            
+                            // Navigate after transition
+                            setTimeout(() => {
+                                window.location.href = href;
+                            }, 800);
+                        }
+                    }
+                });
+            });
+            
+            // Handle browser back/forward button
+            window.addEventListener('pageshow', function(event) {
+                // Hide transition overlay if it's visible
+                if (transitionOverlay && transitionOverlay.classList.contains('active')) {
+                    setTimeout(() => {
+                        transitionOverlay.classList.remove('active');
+                        document.body.classList.remove('transition-active');
+                    }, 300);
+                }
+                
+                // Make page content visible
+                if (pageContent) {
+                    setTimeout(() => {
+                        pageContent.classList.add('visible');
+                    }, 100);
+                }
+            });
+            
+            // Initialize GSAP Animations
+            initGSAPAnimations();
+        });
+        
+        function initGSAPAnimations() {
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Hero Parallax Effect
+            const heroImage = document.querySelector('.hero-parallax-image');
+            if (heroImage) {
+                gsap.to(heroImage, {
+                    yPercent: 20,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: heroImage.parentElement,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            }
+            
+            // Scroll Progress Indicator
+            const scrollProgress = document.querySelector('.scroll-progress');
+            if (scrollProgress) {
+                gsap.to(scrollProgress, {
+                    width: "100%",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "body",
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 0.5
+                    }
+                });
+            }
+            
+            // Section animations (excluding navbar animation)
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                // Fade in sections
+                gsap.fromTo(section, 
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            end: "top 60%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+                
+                // Animate headings within sections
+                const headings = section.querySelectorAll('h1, h2, h3, h4');
+                if (headings.length > 0) {
+                    gsap.fromTo(headings,
+                        { opacity: 0, y: 30 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            stagger: 0.2,
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 85%",
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                }
+                
+                // Animate paragraphs within sections
+                const paragraphs = section.querySelectorAll('p');
+                if (paragraphs.length > 0) {
+                    gsap.fromTo(paragraphs,
+                        { opacity: 0, y: 20 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            stagger: 0.1,
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 80%",
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                }
+            });
+            
+            // Stagger animations for elements with data-delay attribute
+            const staggerItems = document.querySelectorAll('.gsap-stagger-item');
+            if (staggerItems.length > 0) {
+                ScrollTrigger.batch(staggerItems, {
+                    start: "top 85%",
+                    onEnter: batch => {
+                        batch.forEach((item, index) => {
+                            const delay = parseFloat(item.getAttribute('data-delay') || 0);
+                            gsap.fromTo(item,
+                                { opacity: 0, y: 30, scale: 0.9 },
+                                {
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1,
+                                    duration: 0.8,
+                                    delay: delay,
+                                    ease: "back.out(1.7)"
+                                }
+                            );
+                        });
+                    },
+                    once: true
+                });
+            }
+            
+            // Fade in animations for elements with gsap-fade-in classes
+            const fadeInElements = document.querySelectorAll('.gsap-fade-in');
+            fadeInElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Fade in from left animations
+            const fadeInLeftElements = document.querySelectorAll('.gsap-fade-in-left');
+            fadeInLeftElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, x: -50 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Fade in from right animations
+            const fadeInRightElements = document.querySelectorAll('.gsap-fade-in-right');
+            fadeInRightElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, x: 50 },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Scale in animations
+            const scaleInElements = document.querySelectorAll('.gsap-scale-in');
+            scaleInElements.forEach(el => {
+                const delay = parseFloat(el.getAttribute('data-delay') || 0);
+                gsap.fromTo(el,
+                    { opacity: 0, scale: 0.8 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.6,
+                        delay: delay,
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+            
+            // Team card hover animations
+            const teamCards = document.querySelectorAll('.team-card');
+            teamCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        y: -8,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        y: 0,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+            
+            // Stat card hover animations
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+::selection {
+    background: #3f8abe;
+    color: white;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    visibility: hidden;
+    /* Cursor restored to default */
+}
+
+body.loaded {
+    visibility: visible;
+}
+
+/* Preloader Styles */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    visibility: visible;
+}
+
+.loader-half {
+    width: 100%;
+    height: 50%;
+    background-color: #ffffff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.loader-half.top {
+    align-items: flex-end;
+    border-bottom: 0px solid #f3f4f600;
+}
+
+.loader-half.bottom {
+    align-items: flex-start;
+    border-top: 0px solid #f3f4f600;
+}
+
+.logo-img {
+    height: 7rem !important;
+    width: auto !important;
+    max-width: none !important;
+    flex-shrink: 0;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Clip the text for split effect */
+.logo-container {
+    height: 3.5rem; /* Half of 7rem */
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.top .logo-img {
+    transform: translateY(0);
+}
+
+.bottom .logo-img {
+    transform: translateY(-3.5rem); /* Move up by half height */
+}
+
+@media (max-width: 768px) {
+    .logo-img { 
+        height: 4rem !important;
+    }
+    .logo-container { 
+        height: 2rem; 
+    }
+    .bottom .logo-img {
+        transform: translateY(-2rem);
+    }
+}
+
+/* Marquee Animation */
+.marquee-wrapper {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    padding: 2rem 0;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.marquee-text {
+    font-size: 8rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px #e5e7eb;
+    margin-right: 4rem;
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    letter-spacing: -4px;
+}
+
+.marquee-wrapper:hover .marquee-text {
+    -webkit-text-stroke: 2px #3f8abe;
+    color: rgba(63, 138, 190, 0.05);
+}
+
+@media (max-width: 768px) {
+    .marquee-text {
+        font-size: 4rem;
+        margin-right: 2rem;
+    }
+}
+
+/* Hamburger Animation */
+.hamburger-line {
+    transition: all 0.3s ease-in-out;
+    transform-origin: center;
+}
+
+#mobile-menu-btn.open .hamburger-line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+#mobile-menu-btn.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+#mobile-menu-btn.open .hamburger-line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Animated Gradient Background */
+.animated-gradient-bg {
+    background: linear-gradient(-45deg, #f0f9ff, #e0f2fe, #dbeafe, #eff6ff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Bento Grid Parallax helper */
+.bento-item {
+    transition: transform 0.1s linear; 
+}
+
+/* Ensure modal prevents body scroll */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Utility for text strokes if needed elsewhere */
+.text-stroke {
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
+}
