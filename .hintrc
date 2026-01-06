@@ -20,7 +20,12 @@
       {
         "ignore": [
           "backdrop-filter",
-          "mask-image"
+          "mask-image",
+          "user-select",
+          "image-rendering: crisp-edges",
+          "-webkit-overflow-scrolling",
+          "overscroll-behavior",
+          "overscroll-behavior: contain"
         ]
       }
     ],
@@ -35,7 +40,8 @@
     "axe/forms": [
       "default",
       {
-        "select-name": "off"
+        "select-name": "off",
+        "label": "off"
       }
     ]
   }

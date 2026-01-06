@@ -9,97 +9,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Page Transition Overlay */
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 50%, #12304a 100%);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        
-        .page-transition.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .page-transition-logo {
-            width: 300px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .page-transition.active .page-transition-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        /* Loading dots animation */
-        .loading-dots {
-            display: flex;
-            position: absolute;
-            bottom: 40px;
-            gap: 8px;
-        }
-        
-        .loading-dots span {
-            width: 12px;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: loadingDot 1.4s infinite ease-in-out;
-        }
-        
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes loadingDot {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-        
-        /* Prevent scroll during transition */
-        body.transition-active {
-            overflow: hidden;
-        }
-        
-        /* Smooth fade-in for page content */
-        .page-content {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .page-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-50 text-gray-800 overflow-hidden">
-
-    <!-- Page Transition Overlay -->
-    <div id="page-transition" class="page-transition">
-        <div class="text-center">
-            <img src="images/logo.png" alt="Secunda Mall" class="page-transition-logo">
-            <div class="loading-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
 
     <!-- Preloader -->
     <div id="preloader">
@@ -125,13 +37,13 @@
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Home</a>
-                    <button onclick="toggleModal(true)" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300 focus:outline-none">Shops</button>
-                    <a href="movies.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300" data-transition="movies">Movies</a>
+                    <a href="#home" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Home</a>
+                    <button onclick="toggleModal(true)" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300 focus:outline-none">Shops</button>
+                    <a href="movies.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Movies</a>
                     
                     <!-- What's On Dropdown -->
                     <div class="relative group h-full flex items-center">
-                        <button class="nav-link text-gray-600 group-hover:text-[#3f8abe] font-semibold transition duration-300 flex items-center h-full focus:outline-none">
+                        <button class="text-gray-600 group-hover:text-[#3f8abe] font-semibold transition duration-300 flex items-center h-full focus:outline-none">
                             What's On <i class="fa-solid fa-chevron-down text-xs ml-1 transition-transform group-hover:rotate-180"></i>
                         </button>
                         <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-0 w-64 bg-white rounded-b-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-2 border-[#3f8abe]">
@@ -145,9 +57,9 @@
                         </div>
                     </div>
 
-                    <a href="about.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">About</a>
-                    <a href="lease.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Lease Space</a>
-                    <a href="contact.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Contact Us</a>
+                    <a href="about.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">About</a>
+                    <a href="#" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Lease Space</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Contact Us</a>
                 </div>
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="p-2 rounded-md text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 focus:outline-none transition duration-300 flex flex-col justify-between h-8 w-10 overflow-hidden relative">
@@ -161,9 +73,9 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 max-h-[80vh] overflow-y-auto shadow-xl">
             <div class="px-4 pt-4 pb-6 space-y-2">
-                <a href="#home" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Home</a>
-                <button onclick="toggleModal(true)" class="w-full text-left nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Shops</button>
-                <a href="movies.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition" data-transition="movies">Movies</a>
+                <a href="#home" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Home</a>
+                <button onclick="toggleModal(true)" class="w-full text-left block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Shops</button>
+                <a href="movies.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Movies</a>
                 
                 <!-- Dropdown Trigger -->
                 <div>
@@ -173,23 +85,20 @@
                     </button>
                     <!-- Hidden Submenu -->
                     <div id="mobile-dropdown-menu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-[#3f8abe]/20 ml-3">
-                        <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Events</a>
-                        <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Competitions</a>
+                        <a href="#whatson" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Events</a>
+                        <a href="#whatson" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Competitions</a>
                         <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Gift Cards</a>
                         <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Marketing Opportunities</a>
                         <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Gallery</a>
                     </div>
                 </div>
 
-                <a href="about.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">About</a>
-                <a href="lease.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Lease Space</a>
-                <a href="contact.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Contact Us</a>
+                <a href="about.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">About</a>
+                <a href="#" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Lease Space</a>
+                <a href="contact.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Contact Us</a>
             </div>
         </div>
     </nav>
-
-    <!-- Main Content -->
-    <div class="page-content">
 
     <!-- Hero Section -->
     <section id="home" class="relative h-screen flex items-center justify-center text-center px-4 pt-20 overflow-hidden">
@@ -257,7 +166,7 @@
                         <p class="text-blue-100">Catch the latest blockbusters at our state-of-the-art Ster-Kinekor cinemas.</p>
                     </div>
                     <div class="relative z-10 mt-6">
-                        <a href="movies.html" class="nav-link inline-flex items-center text-sm font-bold uppercase tracking-wide hover:text-blue-200 transition" data-transition="movies">Showtimes <i class="fa-solid fa-arrow-right ml-2"></i></a>
+                        <a href="movies.html" class="inline-flex items-center text-sm font-bold uppercase tracking-wide hover:text-blue-200 transition">Showtimes <i class="fa-solid fa-arrow-right ml-2"></i></a>
                     </div>
                 </div>
 
@@ -321,16 +230,16 @@
                 <!-- Card 1 (Past Event) -->
                 <div class="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 opacity-75 hover:opacity-100 transition duration-300">
                     <div class="relative h-64 overflow-hidden bg-gray-200">
-                        <img src="images/santa.jpg" alt="Event" class="w-full h-full object-cover grayscale transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Event" class="w-full h-full object-cover grayscale transition duration-700">
                         <!-- Past Event Overlay -->
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                             <span class="bg-gray-900/90 text-white text-sm font-bold px-4 py-2 rounded-full uppercase tracking-widest border border-white/20 backdrop-blur-md">Event Ended</span>
                         </div>
                     </div>
                     <div class="p-6 relative">
-                        <div class="text-xs text-gray-500 mb-2 font-semibold line-through">25 DEC 2025</div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-600">Pictures with Santa</h3>
-                        <p class="text-gray-500 text-sm mb-6 line-clamp-2">Come and celebrate Christmas with us and capture the beautiful day Santa Clause.</p>
+                        <div class="text-xs text-gray-500 mb-2 font-semibold line-through">15 DEC 2025</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-600">Festive Night Market</h3>
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-2">Join us for an evening of local crafts, live music, and delicious food stalls under the stars.</p>
                         <span class="inline-flex items-center text-gray-400 font-bold text-sm cursor-not-allowed">Closed</span>
                     </div>
                 </div>
@@ -338,14 +247,14 @@
                 <!-- Card 2 (Past Event) -->
                 <div class="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 opacity-75 hover:opacity-100 transition duration-300">
                     <div class="relative h-64 overflow-hidden bg-gray-200">
-                        <img src="images/haval.jpeg" alt="Competition" class="w-full h-full object-cover grayscale transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Competition" class="w-full h-full object-cover grayscale transition duration-700">
                         <!-- Past Event Overlay -->
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                             <span class="bg-gray-900/90 text-white text-sm font-bold px-4 py-2 rounded-full uppercase tracking-widest border border-white/20 backdrop-blur-md">Competition Closed</span>
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="text-xs text-gray-500 mb-2 font-semibold line-through">ENDS 01 JAN</div>
+                        <div class="text-xs text-gray-500 mb-2 font-semibold line-through">01 JANUARY 2026</div>
                         <h3 class="text-xl font-bold mb-3 text-gray-600">Win a New Car</h3>
                         <p class="text-gray-500 text-sm mb-6 line-clamp-2">Spend R500 or more at any store and stand a chance to win a brand new vehicle.</p>
                         <span class="inline-flex items-center text-gray-400 font-bold text-sm cursor-not-allowed">Winners Announced</span>
@@ -355,13 +264,13 @@
                 <!-- Card 3 (Always Visible) -->
                 <div class="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
                     <div class="relative h-64 overflow-hidden bg-gray-200">
-                        <img src="images/marathon.png" alt="Sale" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Competition</div>
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sale" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Promo</div>
                     </div>
                     <div class="p-6">
-                        <div class="text-xs text-gray-500 mb-2 font-semibold">07 FEBRUARY 26</div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#3f8abe] transition">Race</h3>
-                        <p class="text-gray-600 text-sm mb-6 line-clamp-2">RACE DAY is Here! Calling all runners and wal0kers to join us!</p>
+                        <div class="text-xs text-gray-500 mb-2 font-semibold">THIS WEEKEND</div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#3f8abe] transition">Sidewalk Sale</h3>
+                        <p class="text-gray-600 text-sm mb-6 line-clamp-2">Huge discounts up to 50% off at participating fashion and home stores.</p>
                         <a href="#" class="inline-flex items-center text-[#3f8abe] font-bold text-sm hover:underline">View Deals <i class="fa-solid fa-arrow-right ml-1"></i></a>
                     </div>
                 </div>
@@ -369,11 +278,11 @@
                 <!-- Card 4 (Hidden Mobile) -->
                 <div class="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 hidden md:block">
                     <div class="relative h-64 overflow-hidden bg-gray-200">
-                        <img src="images/kids.jpg" alt="Kids" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kids" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                         <div class="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Kids</div>
                     </div>
                     <div class="p-6">
-                        <div class="text-xs text-gray-500 mb-2 font-semibold">21 FEBRUARY 26</div>
+                        <div class="text-xs text-gray-500 mb-2 font-semibold">21 FEBRUARY 2026</div>
                         <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#3f8abe] transition">Kids Fun Zone</h3>
                         <p class="text-gray-600 text-sm mb-6 line-clamp-2">Face painting, balloon art, and magic shows for the little ones in the Center Court.</p>
                         <a href="#" class="inline-flex items-center text-[#3f8abe] font-bold text-sm hover:underline">Learn More <i class="fa-solid fa-arrow-right ml-1"></i></a>
@@ -383,12 +292,12 @@
                 <!-- Card 5 (Hidden Mobile) -->
                 <div class="group bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 hidden md:block">
                     <div class="relative h-64 overflow-hidden bg-gray-200">
-                        <img src="images/fashionETdeI3qWsAEd99x-1000x600.jpeg" alt="Gallery" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img src="https://images.unsplash.com/photo-1531591022136-eb8b0da1e6d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gallery" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                         <div class="absolute top-4 right-4 bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Gallery</div>
                     </div>
                     <div class="p-6">
                         <div class="text-xs text-gray-500 mb-2 font-semibold">PAST EVENT</div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#3f8abe] transition">Fashion Show 2023</h3>
+                        <h3 class="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#3f8abe] transition">Fashion Show 2025</h3>
                         <p class="text-gray-600 text-sm mb-6 line-clamp-2">Check out the photos from our annual Summer Fashion Show featuring local designers.</p>
                         <a href="#" class="inline-flex items-center text-[#3f8abe] font-bold text-sm hover:underline">View Gallery <i class="fa-solid fa-arrow-right ml-1"></i></a>
                     </div>
@@ -418,7 +327,7 @@
     <!-- Lease Space (Replaces Entertainment) -->
     <section id="lease" class="relative py-24 flex items-center justify-center overflow-hidden text-white">
         <div class="absolute inset-0 z-0">
-            <img src="images/hero2.jpg" alt="Artistic Architecture" class="w-full h-full object-cover">
+            <img src="images/hero.jpg" alt="Artistic Architecture" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/60 mix-blend-multiply"></div>
         </div>
         <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
@@ -430,6 +339,10 @@
         </div>
     </section>
 
+
+
+
+
     <!-- Footer -->
     <footer id="contact" class="bg-gray-900 text-gray-300 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -437,7 +350,7 @@
                 <!-- Brand -->
                 <div>
                     <div class="flex items-center mb-4">
-                        <img src="https://placehold.co/600x150/111827/FFFFFF/png?text=SECUNDA+MALL" alt="Secunda Mall" class="h-8 w-auto">
+                        <img src="images/logo.png" alt="Secunda Mall" class="h-8 w-auto">
                     </div>
                     <p class="text-sm text-gray-400 mb-6">The premier shopping destination in Mpumalanga offering the best in fashion, food, and fun.</p>
                     <div class="flex space-x-4">
@@ -452,7 +365,7 @@
                     <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h3>
                     <ul class="space-y-2 text-sm">
                         <li><button onclick="toggleModal(true)" class="hover:text-[#3f8abe] transition text-left">Store Directory</button></li>
-                        <li><a href="movies.html" class="nav-link hover:text-[#3f8abe] transition" data-transition="movies">Movies & Cinema</a></li>
+                        <li><a href="movies.html" class="hover:text-[#3f8abe] transition">Movies & Cinema</a></li>
                         <li><a href="#" class="hover:text-[#3f8abe] transition">Gift Cards</a></li>
                         <li><a href="#" class="hover:text-[#3f8abe] transition">Promotions</a></li>
                         <li><a href="#" class="hover:text-[#3f8abe] transition">Careers</a></li>
@@ -495,8 +408,6 @@
             <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
         </div>
     </footer>
-
-    </div> <!-- End of .page-content -->
 
     <!-- Stores Modal -->
     <div id="stores-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
@@ -1598,78 +1509,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Page Transition Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const transitionOverlay = document.getElementById('page-transition');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pageContent = document.querySelector('.page-content');
-            
-            // Make page content visible
-            if (pageContent) {
-                setTimeout(() => {
-                    pageContent.classList.add('visible');
-                }, 100);
-            }
-            
-            // Handle navigation clicks
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    
-                    // Check if it's an external link (to movies.html or other pages)
-                    if (href && (href.includes('.html') || href.includes('mailto:') || href.includes('tel:'))) {
-                        // For mailto and tel links, don't trigger transition
-                        if (href.startsWith('mailto:') || href.startsWith('tel:')) {
-                            return;
-                        }
-                        
-                        // Check if it's a hash link on the same page
-                        if (href.startsWith('#') && !this.hasAttribute('data-transition')) {
-                            return;
-                        }
-                        
-                        // Show transition overlay
-                        if (transitionOverlay) {
-                            e.preventDefault();
-                            transitionOverlay.classList.add('active');
-                            document.body.classList.add('transition-active');
-                            
-                            // Navigate after transition
-                            setTimeout(() => {
-                                window.location.href = href;
-                            }, 800);
-                        }
-                    }
-                });
-            });
-            
-            // Also handle the "Movies" link in the footer
-            const footerMovieLinks = document.querySelectorAll('a[href="movies.html"]');
-            footerMovieLinks.forEach(link => {
-                if (!link.classList.contains('nav-link')) {
-                    link.classList.add('nav-link');
-                }
-            });
-            
-            // Handle browser back/forward button
-            window.addEventListener('pageshow', function(event) {
-                // Hide transition overlay if it's visible
-                if (transitionOverlay && transitionOverlay.classList.contains('active')) {
-                    setTimeout(() => {
-                        transitionOverlay.classList.remove('active');
-                        document.body.classList.remove('transition-active');
-                    }, 300);
-                }
-                
-                // Make page content visible
-                if (pageContent) {
-                    setTimeout(() => {
-                        pageContent.classList.add('visible');
-                    }, 100);
-                }
-            });
-        });
-    </script>
 </body>
 </html>

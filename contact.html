@@ -3,478 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Secunda Mall Customer Service & Information</title>
-    <meta name="description" content="Contact Secunda Mall for customer service, store information, leasing enquiries, and general assistance. Find our location, hours, and contact details.">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <title>Contact Us - Secunda Mall</title>
+    <meta name="description" content="Get in touch with Secunda Mall. Find our location, contact details, or send us a message.">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* Page Transition Overlay */
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 50%, #12304a 100%);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        
-        .page-transition.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .page-transition-logo {
-            width: 300px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .page-transition.active .page-transition-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        /* Loading dots animation */
-        .loading-dots {
-            display: flex;
-            position: absolute;
-            bottom: 40px;
-            gap: 8px;
-        }
-        
-        .loading-dots span {
-            width: 12px;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: loadingDot 1.4s infinite ease-in-out;
-        }
-        
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes loadingDot {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-        
-        /* Prevent scroll during transition */
-        body.transition-active {
-            overflow: hidden;
-        }
-        
-        /* Smooth fade-in for page content */
-        .page-content {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .page-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Contact Page Specific Styles */
-        .contact-card {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        .contact-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-        }
-        
-        .contact-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .department-card {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .department-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border-color: #3f8abe;
-        }
-        
-        .hours-card {
-            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
-            color: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-        }
-        
-        .hours-card.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        .hours-card:hover {
-            transform: scale(1.02);
-        }
-        
-        /* Animation Classes */
-        .gsap-fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        .gsap-fade-in-left {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        
-        .gsap-fade-in-right {
-            opacity: 0;
-            transform: translateX(50px);
-        }
-        
-        .gsap-scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-        }
-        
-        .gsap-stagger-item {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
-        /* Hero Parallax */
-        .hero-parallax-image {
-            will-change: transform;
-        }
-        
-        /* Scroll Progress Indicator */
-        .scroll-progress {
-            position: fixed;
-            top: 80px;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(to right, #3f8abe, #2c668f);
-            z-index: 100;
-            transition: width 0.1s ease;
-        }
-        
-        /* Form Styles */
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #3f8abe;
-            box-shadow: 0 0 0 3px rgba(63, 138, 190, 0.1);
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #374151;
-        }
-        
-        /* CTA Button Animation */
-        .cta-button {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s ease;
-        }
-        
-        .cta-button:hover::after {
-            left: 100%;
-        }
-        
-        /* Map Container */
-        .map-container {
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            height: 400px;
-            position: relative;
-        }
-        
-        .map-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(63, 138, 190, 0.1), rgba(18, 48, 74, 0.2));
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        /* Store Directory Card */
-        .store-card {
-            background: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-        
-        .store-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border-left-color: #3f8abe;
-        }
-        
-        /* Social Links */
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .social-link.facebook { background: #1877f2; }
-        .social-link.instagram { background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d); }
-        .social-link.twitter { background: #1da1f2; }
-        .social-link.youtube { background: #ff0000; }
-        
-        .social-link:hover {
-            transform: translateY(-5px) scale(1.1);
-        }
-        
-        /* Info Card with Icon */
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-        }
-        
-        .info-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #3f8abe 0%, #2c668f 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1rem;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-        
-        /* Emergency Contact Card */
-        .emergency-card {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        
-        .emergency-card:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Store Hours Table */
-        .hours-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .hours-table tr {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .hours-table tr:last-child {
-            border-bottom: none;
-        }
-        
-        .hours-table td {
-            padding: 0.75rem 0;
-        }
-        
-        .hours-table td:first-child {
-            font-weight: 600;
-        }
-        
-        .hours-table td:last-child {
-            text-align: right;
-            font-weight: 700;
-        }
-        
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background: #3f8abe;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(63, 138, 190, 0.3);
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            z-index: 90;
-        }
-        
-        .back-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .back-to-top:hover {
-            background: #2c668f;
-            transform: translateY(-5px);
-        }
-        
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #e5e7eb, transparent);
-            margin: 3rem 0;
-        }
-
-        /* FAQ Styles */
-        .faq-question {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            text-align: left;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .faq-question:hover {
-            background-color: #f9fafb;
-        }
-        
-        .faq-answer {
-            padding: 0 1.5rem 1.5rem;
-            display: none;
-        }
-        
-        .faq-answer.active {
-            display: block;
-        }
-        
-        /* Hamburger Animation */
-        .hamburger-line {
-            transition: all 0.3s ease-in-out;
-            transform-origin: center;
-        }
-        
-        #mobile-menu-btn.open .hamburger-line:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
-        }
-        
-        #mobile-menu-btn.open .hamburger-line:nth-child(2) {
-            opacity: 0;
-            transform: translateX(10px);
-        }
-        
-        #mobile-menu-btn.open .hamburger-line:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
-        }
-
-        /* Fix: Make page content visible by default if JS fails */
-        .page-content {
-            opacity: 1;
-            transform: none;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Montserrat', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-    <!-- Scroll Progress Indicator -->
-    <div class="scroll-progress"></div>
-
-    <!-- Back to Top Button -->
-    <div id="back-to-top" class="back-to-top">
-        <i class="fa-solid fa-arrow-up"></i>
-    </div>
-
-    <!-- Page Transition Overlay -->
-    <div id="page-transition" class="page-transition">
-        <div class="text-center">
-            <img src="images/logo.png" alt="Secunda Mall" class="page-transition-logo">
-            <div class="loading-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
-
+<body class="bg-gray-50 text-gray-800" style="visibility: visible; opacity: 1;">
+    
     <!-- Navigation -->
     <nav class="bg-white/90 backdrop-blur-lg shadow-sm fixed w-full z-50 border-b border-white/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -485,789 +25,1336 @@
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Home</a>
-                    <a href="index.html#whatson" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">What's On</a>
-                    <a href="movies.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300" data-transition="movies">Movies</a>
-                    <a href="about.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">About</a>
-                    <a href="lease.html" class="nav-link text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Lease Space</a>
-                    <a href="#" class="nav-link text-[#3f8abe] font-semibold transition duration-300 border-b-2 border-[#3f8abe]">Contact Us</a>
+                    <a href="index.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Home</a>
+                    <button onclick="toggleModal(true)" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300 focus:outline-none">Shops</button>
+                    <a href="movies.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Movies</a>
+                    
+                    <!-- What's On Dropdown -->
+                    <div class="relative group h-full flex items-center">
+                        <button class="text-gray-600 group-hover:text-[#3f8abe] font-semibold transition duration-300 flex items-center h-full focus:outline-none">
+                            What's On <i class="fa-solid fa-chevron-down text-xs ml-1 transition-transform group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-0 w-64 bg-white rounded-b-md shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-2 border-[#3f8abe]">
+                            <div class="py-2">
+                                <a href="index.html#whatson" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3f8abe] transition">Events</a>
+                                <a href="index.html#whatson" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3f8abe] transition">Competitions</a>
+                                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3f8abe] transition">Gift Cards</a>
+                                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3f8abe] transition">Marketing Opportunities</a>
+                                <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3f8abe] transition">Gallery</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="about.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">About</a>
+                    <a href="lease.html" class="text-gray-600 hover:text-[#3f8abe] font-semibold transition duration-300">Lease Space</a>
+                    <a href="#" class="text-[#3f8abe] font-semibold transition duration-300">Contact Us</a>
                 </div>
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="p-2 rounded-md text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 focus:outline-none transition duration-300 flex flex-col justify-between h-8 w-10 overflow-hidden relative">
-                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2 -mt-2.5"></span>
-                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2"></span>
-                        <span class="hamburger-line block w-full h-0.5 bg-current rounded-full absolute top-1/2 mt-2.5"></span>
+                    <button id="mobile-menu-btn" class="p-2 rounded-md text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 focus:outline-none transition duration-300">
+                        <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 max-h-[80vh] overflow-y-auto shadow-xl">
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl">
             <div class="px-4 pt-4 pb-6 space-y-2">
-                <a href="index.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Home</a>
-                <a href="index.html#whatson" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">What's On</a>
-                <a href="movies.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition" data-transition="movies">Movies</a>
-                <a href="about.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">About</a>
-                <a href="lease.html" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Lease Space</a>
-                <a href="#" class="nav-link block px-3 py-3 rounded-lg text-base font-semibold text-[#3f8abe] bg-blue-50">Contact Us</a>
+                <a href="index.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Home</a>
+                <button onclick="toggleModal(true)" class="w-full text-left block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Shops</button>
+                <a href="movies.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Movies</a>
+                
+                <!-- Dropdown Trigger -->
+                <div>
+                    <button id="mobile-dropdown-btn" class="w-full flex justify-between items-center px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition focus:outline-none">
+                        <span>What's On</span>
+                        <i id="mobile-dropdown-icon" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                    </button>
+                    <!-- Hidden Submenu -->
+                    <div id="mobile-dropdown-menu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-[#3f8abe]/20 ml-3">
+                        <a href="index.html#whatson" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Events</a>
+                        <a href="index.html#whatson" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Competitions</a>
+                        <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Gift Cards</a>
+                        <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Marketing Opportunities</a>
+                        <a href="#" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-[#3f8abe] hover:bg-gray-50 transition">Gallery</a>
+                    </div>
+                </div>
+
+                <a href="about.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">About</a>
+                <a href="lease.html" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Lease Space</a>
+                <a href="#" class="block px-3 py-3 rounded-lg text-base font-semibold text-gray-700 hover:text-[#3f8abe] hover:bg-gray-50 transition">Contact Us</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="page-content pt-20">
+    <!-- Hero -->
+    <section class="relative py-24 bg-gray-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-30">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Contact Hero" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Contact Us</h1>
+            <p class="text-xl md:text-2xl text-blue-200 font-light">My Mall. My Space.</p>
+        </div>
+    </section>
 
-        <!-- Hero Section with Parallax -->
-        <section class="relative py-24 md:py-32 flex items-center justify-center text-center px-4 overflow-hidden bg-gradient-to-br from-[#3f8abe] to-[#12304a]">
-            <div class="absolute inset-0 z-0 overflow-hidden">
-                <img src="images/hero3.jpg" 
-                     alt="Secunda Mall Entrance" 
-                     class="hero-parallax-image w-full h-full object-cover opacity-30 scale-125">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/50"></div>
-            </div>
-            
-            <div class="relative z-10 max-w-5xl mx-auto text-white">
-                <h1 class="gsap-fade-in text-5xl md:text-7xl font-bold mb-6 tracking-tighter">Contact Secunda Mall</h1>
-                <p class="gsap-fade-in text-xl md:text-2xl mb-8 font-light text-gray-200 max-w-3xl mx-auto">Get in touch with Mpumalanga's premier shopping destination</p>
-                <div class="gsap-fade-in flex flex-col sm:flex-row justify-center gap-6">
-                    <a href="#contact-form" class="cta-button px-8 py-4 bg-white text-gray-900 font-bold rounded-full hover:bg-gray-100 transition duration-300 shadow-lg transform hover:-translate-y-1">
-                        Send Message <i class="fa-solid fa-envelope ml-2"></i>
-                    </a>
-                    <a href="#location" class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-full hover:bg-white/20 transition duration-300">
-                        <i class="fa-solid fa-map-marker-alt mr-2"></i> Find Us
-                    </a>
-                </div>
-            </div>
-            
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 text-white/60 animate-bounce">
-                <i class="fa-solid fa-chevron-down text-xl"></i>
-            </div>
-        </section>
+    <!-- Contact Content -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                
+                <!-- Contact Info -->
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Get In Touch</h2>
+                    <p class="text-gray-600 mb-8">Whether you have a question about our stores, leasing opportunities, or just want to say hello, we'd love to hear from you.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#3f8abe]">
+                                <i class="fa-solid fa-location-dot text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="font-bold text-gray-900">Visit Us</h3>
+                                <p class="text-gray-600">Louwrens Muller St,<br>Secunda, 2302</p>
+                            </div>
+                        </div>
 
-        <!-- Quick Contact Cards -->
-        <section class="py-16 md:py-24 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Get in Touch</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Multiple ways to contact us for assistance, information, or feedback</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Phone Contact -->
-                    <div class="contact-card gsap-stagger-item" data-delay="0">
-                        <div class="p-8 text-center">
-                            <div class="contact-icon mx-auto">
-                                <i class="fa-solid fa-phone"></i>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#3f8abe]">
+                                <i class="fa-solid fa-phone text-xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold mb-2 text-gray-900">Phone & WhatsApp</h3>
-                            <p class="text-gray-600 mb-6">Call us directly or send a WhatsApp message for quick assistance.</p>
-                            <div class="space-y-3">
-                                <a href="tel:+27176346565" class="block text-lg font-bold text-[#3f8abe] hover:text-[#2c668f] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> +27 (17) 634 6565
-                                </a>
-                                <a href="https://wa.me/27176346565" target="_blank" class="block text-lg font-bold text-green-600 hover:text-green-700 transition">
-                                    <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp Us
-                                </a>
+                            <div class="ml-4">
+                                <h3 class="font-bold text-gray-900">Call Us</h3>
+                                <p class="text-gray-600">+27 17 634 6565</p>
+                                <p class="text-xs text-gray-500 mt-1">Mon-Fri: 8am - 5pm</p>
                             </div>
-                            <p class="text-sm text-gray-500 mt-4">Available during mall operating hours</p>
                         </div>
-                    </div>
-                    
-                    <!-- Email Contact -->
-                    <div class="contact-card gsap-stagger-item" data-delay="0.1">
-                        <div class="p-8 text-center">
-                            <div class="contact-icon mx-auto">
-                                <i class="fa-solid fa-envelope"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2 text-gray-900">Email & Online</h3>
-                            <p class="text-gray-600 mb-6">Send us an email or use our online contact form for detailed enquiries.</p>
-                            <div class="space-y-3">
-                                <a href="mailto:info@secundamall.co.za" class="block text-lg font-bold text-[#3f8abe] hover:text-[#2c668f] transition">
-                                    <i class="fa-solid fa-envelope mr-2"></i> info@secundamall.co.za
-                                </a>
-                                <a href="#contact-form" class="block text-lg font-bold text-[#3f8abe] hover:text-[#2c668f] transition">
-                                    <i class="fa-solid fa-paper-plane mr-2"></i> Online Contact Form
-                                </a>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-4">Response within 24-48 hours</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Visit Us -->
-                    <div class="contact-card gsap-stagger-item" data-delay="0.2">
-                        <div class="p-8 text-center">
-                            <div class="contact-icon mx-auto">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2 text-gray-900">Visit in Person</h3>
-                            <p class="text-gray-600 mb-6">Visit our Centre Management office located on the Mezzanine level.</p>
-                            <div class="space-y-3">
-                                <div class="text-lg font-bold text-gray-900">
-                                    <i class="fa-solid fa-map-pin mr-2 text-[#3f8abe]"></i> Mezzanine Level
-                                </div>
-                                <p class="text-gray-600">Next to Mr Price Home, down the stairs</p>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-4">Monday-Friday: 7:00-18:00 | Weekends: 9:00-14:00</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Location & Map -->
-        <section id="location" class="py-16 md:py-24 bg-gray-50 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Our Location</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Find us in the heart of Secunda with easy access from all major routes</p>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Map -->
-                    <div class="gsap-fade-in-left">
-                        <div class="map-container">
-                            <!-- Google Maps Embed -->
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3557.4567890123456!2d29.123456!3d-26.54321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1eefabcdef12345%3A0xabcdef123456789!2sSecunda%20Mall!5e0!3m2!1sen!2sza!4v1234567890123!5m2!1sen!2sza"
-                                width="100%"
-                                height="100%"
-                                style="border:0;"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
-                            <div class="map-overlay"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Location Details -->
-                    <div class="gsap-fade-in-right">
-                        <div class="bg-white rounded-2xl p-8 shadow-lg">
-                            <h3 class="text-2xl font-bold mb-6 text-gray-900">Address & Directions</h3>
-                            
-                            <div class="space-y-6">
-                                <div class="info-item">
-                                    <div class="info-icon">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900 mb-1">Physical Address</h4>
-                                        <p class="text-gray-600">Secunda Mall<br>
-                                           Louwrens Muller Street<br>
-                                           Secunda, 2302<br>
-                                           Mpumalanga, South Africa</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-icon">
-                                        <i class="fa-solid fa-road"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900 mb-1">Access Routes</h4>
-                                        <p class="text-gray-600">Accessible from Oliver Tambo Street and PDP Kruger Street via four main entrances.</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-icon">
-                                        <i class="fa-solid fa-car"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900 mb-1">Parking Information</h4>
-                                        <p class="text-gray-600">2,435 free parking bays available including:<br>
-                                           • Disabled parking near all entrances<br>
-                                           • Moms & Tots parking bays<br>
-                                           • Covered underground parking<br>
-                                           • Bike parking at Entrances 1, 3 & 4</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="info-item">
-                                    <div class="info-icon">
-                                        <i class="fa-solid fa-bus"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900 mb-1">Public Transport</h4>
-                                        <p class="text-gray-600">Regular bus services stop at all mall entrances. Taxi rank located at Entrance 2.</p>
-                                    </div>
-                                </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#3f8abe]">
+                                <i class="fa-solid fa-envelope text-xl"></i>
                             </div>
-                            
-                            <div class="mt-8 pt-6 border-t border-gray-100">
-                                <a href="https://goo.gl/maps/abcdef123456789" target="_blank" class="cta-button inline-flex items-center bg-[#3f8abe] text-white px-6 py-3 rounded-full font-bold hover:bg-[#2c668f] transition">
-                                    <i class="fa-solid fa-directions mr-2"></i> Get Directions
-                                </a>
+                            <div class="ml-4">
+                                <h3 class="font-bold text-gray-900">Email Us</h3>
+                                <p class="text-gray-600">info@secundamall.co.za</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Operating Hours -->
-        <section class="py-16 md:py-24 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Operating Hours</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Find out when we're open for shopping, dining, and entertainment</p>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Mall Hours -->
-                    <div class="hours-card gsap-stagger-item" data-delay="0">
-                        <h3 class="text-2xl font-bold mb-6 text-white">Mall Trading Hours</h3>
-                        <table class="hours-table">
-                            <tr>
-                                <td>Monday - Thursday</td>
-                                <td>09:00 - 18:00</td>
-                            </tr>
-                            <tr>
-                                <td>Friday</td>
-                                <td>09:00 - 19:00</td>
-                            </tr>
-                            <tr>
-                                <td>Saturday</td>
-                                <td>09:00 - 17:00</td>
-                            </tr>
-                            <tr>
-                                <td>Sunday & Public Holidays</td>
-                                <td>09:00 - 15:00</td>
-                            </tr>
-                        </table>
-                        <p class="text-sm text-white/80 mt-6">* Individual store hours may vary. Please check with specific stores.</p>
-                    </div>
-                    
-                    <!-- Centre Management Hours -->
-                    <div class="hours-card gsap-stagger-item" data-delay="0.1">
-                        <h3 class="text-2xl font-bold mb-6 text-white">Centre Management Hours</h3>
-                        <table class="hours-table">
-                            <tr>
-                                <td>Monday - Friday</td>
-                                <td>07:00 - 18:00</td>
-                            </tr>
-                            <tr>
-                                <td>Saturday</td>
-                                <td>09:00 - 14:00</td>
-                            </tr>
-                            <tr>
-                                <td>Sunday</td>
-                                <td>09:00 - 14:00</td>
-                            </tr>
-                            <tr>
-                                <td>Public Holidays</td>
-                                <td>09:00 - 14:00</td>
-                            </tr>
-                        </table>
-                        <p class="text-sm text-white/80 mt-6">Contact: (010) 001 0254 | Located on Mezzanine level</p>
+                    <!-- Map Placeholder -->
+                    <div class="mt-10 h-64 bg-gray-200 rounded-2xl overflow-hidden relative shadow-inner">
+                        <div class="absolute inset-0 flex items-center justify-center text-gray-500">
+                            <div class="text-center">
+                                <i class="fa-solid fa-map text-4xl mb-2"></i>
+                                <p>Interactive Map</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Extended Hours Notice -->
-                <div class="mt-12 text-center gsap-fade-in">
-                    <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 max-w-2xl mx-auto">
-                        <h4 class="text-lg font-bold text-gray-900 mb-2">Extended Holiday Hours</h4>
-                        <p class="text-gray-600">During festive seasons and special events, trading hours may be extended. Check our website or social media for updates on special trading hours.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Department Contacts -->
-        <section class="py-16 md:py-24 bg-gray-50 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Department Contacts</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Contact the right department for specific enquiries</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Centre Management -->
-                    <div class="department-card gsap-stagger-item" data-delay="0">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fa-solid fa-building text-blue-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900">Centre Management</h3>
-                            </div>
-                            <p class="text-gray-600 mb-4">For general enquiries, feedback, complaints, and mall information.</p>
-                            <div class="space-y-2">
-                                <a href="tel:0100010254" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0254
-                                </a>
-                                <a href="mailto:info@secundamall.co.za" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-envelope mr-2"></i> info@secundamall.co.za
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Leasing Department -->
-                    <div class="department-card gsap-stagger-item" data-delay="0.1">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fa-solid fa-file-contract text-green-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900">Leasing Department</h3>
-                            </div>
-                            <p class="text-gray-600 mb-4">For retail space enquiries, leasing information, and tenant applications.</p>
-                            <div class="space-y-2">
-                                <a href="tel:0100010255" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0255
-                                </a>
-                                <a href="mailto:leasing@secundamall.co.za" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-envelope mr-2"></i> leasing@secundamall.co.za
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Marketing & Events -->
-                    <div class="department-card gsap-stagger-item" data-delay="0.2">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fa-solid fa-bullhorn text-purple-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900">Marketing & Events</h3>
-                            </div>
-                            <p class="text-gray-600 mb-4">For event enquiries, promotions, advertising, and partnership opportunities.</p>
-                            <div class="space-y-2">
-                                <a href="tel:0100010256" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0256
-                                </a>
-                                <a href="mailto:marketing@secundamall.co.za" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-envelope mr-2"></i> marketing@secundamall.co.za
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Security -->
-                    <div class="department-card gsap-stagger-item" data-delay="0">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fa-solid fa-shield-alt text-red-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900">Security Office</h3>
-                            </div>
-                            <p class="text-gray-600 mb-4">For security concerns, lost & found, and emergency assistance.</p>
-                            <div class="space-y-2">
-                                <a href="tel:0100010257" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0257
-                                </a>
-                                <div class="text-sm text-gray-500">Available 24/7</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Maintenance -->
-                    <div class="department-card gsap-stagger-item" data-delay="0.1">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fa-solid fa-tools text-yellow-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900">Maintenance</h3>
-                            </div>
-                            <p class="text-gray-600 mb-4">For building maintenance issues, repairs, and facility concerns.</p>
-                            <div class="space-y-2">
-                                <a href="tel:0100010258" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0258
-                                </a>
-                                <div class="text-sm text-gray-500">Monday-Friday: 6:00-18:00</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Customer Service -->
-                    <div class="department-card gsap-stagger-item" data-delay="0.2">
-                        <div class="p-6">
-                            <div class="flex items-center mb-4">
-                                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-4">
-                                    <i class="fa-solid fa-headset text-teal-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-xl font-bold text-gray-900">Customer Service</h3>
-                            </div>
-                            <p class="text-gray-600 mb-4">For customer feedback, gift cards, and general assistance.</p>
-                            <div class="space-y-2">
-                                <a href="tel:0100010259" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-phone mr-2"></i> (010) 001 0259
-                                </a>
-                                <a href="mailto:customerservice@secundamall.co.za" class="block text-gray-700 hover:text-[#3f8abe] transition">
-                                    <i class="fa-solid fa-envelope mr-2"></i> customerservice@secundamall.co.za
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Emergency Contacts -->
-        <!--<section class="py-16 md:py-24 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Emergency Contacts</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Important contact numbers for emergencies and urgent assistance</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">-->
-                    <!-- Emergency Security -->
-                    <!--<div class="emergency-card gsap-stagger-item" data-delay="0">
-                        <i class="fa-solid fa-shield-alt text-3xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Security Emergency</h3>
-                        <p class="text-white/90 mb-4">24/7 on-site security assistance</p>
-                        <a href="tel:0100010257" class="text-2xl font-bold text-white hover:text-white/80 transition block">
-                            (010) 001 0257
-                        </a>
-                    </div>-->
-                    
-                    <!-- Ambulance -->
-                    <!--<div class="emergency-card bg-gradient-to-br from-orange-500 to-red-600 gsap-stagger-item" data-delay="0.1">
-                        <i class="fa-solid fa-ambulance text-3xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Ambulance</h3>
-                        <p class="text-white/90 mb-4">Medical emergencies</p>
-                        <a href="tel:10177" class="text-2xl font-bold text-white hover:text-white/80 transition block">
-                            10177
-                        </a>
-                    </div>-->
-                    
-                    <!-- Police -->
-                    <!--<div class="emergency-card bg-gradient-to-br from-blue-600 to-blue-800 gsap-stagger-item" data-delay="0.2">
-                        <i class="fa-solid fa-police-box text-3xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Police</h3>
-                        <p class="text-white/90 mb-4">Secunda SAPS</p>
-                        <a href="tel:0176349020" class="text-2xl font-bold text-white hover:text-white/80 transition block">
-                            (017) 634 9020
-                        </a>
-                    </div>-->
-                    
-                    <!-- Fire Department -->
-                    <!--<div class="emergency-card bg-gradient-to-br from-red-600 to-orange-600 gsap-stagger-item" data-delay="0.3">
-                        <i class="fa-solid fa-fire-extinguisher text-3xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Fire Department</h3>
-                        <p class="text-white/90 mb-4">Fire emergencies</p>
-                        <a href="tel:0176349111" class="text-2xl font-bold text-white hover:text-white/80 transition block">
-                            (017) 634 9111
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="mt-12 bg-gray-50 border border-gray-200 rounded-xl p-6 max-w-3xl mx-auto gsap-fade-in">
-                    <div class="flex items-center mb-4">
-                        <i class="fa-solid fa-triangle-exclamation text-yellow-500 text-2xl mr-3"></i>
-                        <h4 class="text-lg font-bold text-gray-900">Emergency Procedures</h4>
-                    </div>
-                    <p class="text-gray-600 mb-4">In case of emergency:</p>
-                    <ol class="list-decimal pl-5 text-gray-600 space-y-2">
-                        <li>Stay calm and follow instructions from mall staff or security</li>
-                        <li>Proceed to the nearest emergency exit if evacuation is required</li>
-                        <li>Do not use elevators during emergencies</li>
-                        <li>Assemble at designated emergency assembly points</li>
-                        <li>Wait for further instructions from emergency personnel</li>
-                    </ol>
-                </div>
-            </div>
-        </section>-->
-
-        <!-- Contact Form -->
-        <!--<section id="contact-form" class="py-16 md:py-24 bg-gray-50 overflow-hidden">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Send Us a Message</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Fill out the form below and we'll get back to you as soon as possible</p>
-                </div>
-                
-                <div class="bg-white rounded-2xl shadow-xl p-8 gsap-scale-in">
-                    <form id="contactForm" onsubmit="event.preventDefault(); submitContactForm();">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Contact Form -->
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Send a Message</h2>
+                    <form onsubmit="event.preventDefault(); alert('Message sent!');" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label for="name" class="form-label">Full Name *</label>
-                                <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3f8abe] focus:border-transparent focus:outline-none" required>
                             </div>
                             <div>
-                                <label for="email" class="form-label">Email Address *</label>
-                                <input type="email" id="email" class="form-input" placeholder="Enter your email address" required>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3f8abe] focus:border-transparent focus:outline-none" required>
                             </div>
                         </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" id="phone" class="form-input" placeholder="Enter your phone number">
-                            </div>
-                            <div>
-                                <label for="subject" class="form-label">Subject *</label>
-                                <select id="subject" class="form-input" required>
-                                    <option value="" disabled selected>Select a subject</option>
-                                    <option value="General Enquiry">General Enquiry</option>
-                                    <option value="Store Information">Store Information</option>
-                                    <option value="Leasing Enquiry">Leasing Enquiry</option>
-                                    <option value="Marketing & Events">Marketing & Events</option>
-                                    <option value="Customer Feedback">Customer Feedback</option>
-                                    <option value="Complaint">Complaint</option>
-                                    <option value="Website Feedback">Website Feedback</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3f8abe] focus:border-transparent focus:outline-none" required>
                         </div>
-                        
-                        <div class="mb-6">
-                            <label for="message" class="form-label">Message *</label>
-                            <textarea id="message" class="form-input h-40" placeholder="Type your message here..." required></textarea>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3f8abe] focus:border-transparent focus:outline-none">
+                                <option>General Enquiry</option>
+                                <option>Leasing</option>
+                                <option>Marketing</option>
+                                <option>Compliment/Complaint</option>
+                            </select>
                         </div>
-                        
-                        <div class="mb-6">
-                            <label class="flex items-center">
-                                <input type="checkbox" id="newsletter" class="mr-2 h-4 w-4 text-[#3f8abe] focus:ring-[#3f8abe] border-gray-300 rounded">
-                                <span class="text-gray-600">Subscribe to our newsletter for updates and promotions</span>
-                            </label>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3f8abe] focus:border-transparent focus:outline-none" required></textarea>
                         </div>
-                        
-                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div class="text-sm text-gray-500">
-                                <i class="fa-solid fa-shield-alt mr-1"></i> Your information is secure and will not be shared
-                            </div>
-                            <button type="submit" class="cta-button bg-[#3f8abe] text-white px-8 py-3 rounded-full font-bold hover:bg-[#2c668f] transition flex items-center">
-                                Send Message <i class="fa-solid fa-paper-plane ml-2"></i>
-                            </button>
-                        </div>
+                        <button type="submit" class="w-full bg-[#3f8abe] text-white font-bold py-3 rounded-lg hover:bg-[#2c668f] transition shadow-lg">Send Message</button>
                     </form>
-                </div>-->
-                
-                <!-- Form Success Message (Hidden by Default)
-                <div id="form-success" class="hidden mt-6 bg-green-50 border border-green-200 rounded-xl p-6 text-center gsap-fade-in">
-                    <i class="fa-solid fa-circle-check text-green-500 text-4xl mb-4"></i>
-                    <h3 class="text-xl font-bold text-green-800 mb-2">Message Sent Successfully!</h3>
-                    <p class="text-green-700">Thank you for contacting Secunda Mall. We'll respond to your enquiry within 24-48 hours.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="images/logo.png" alt="Secunda Mall" class="h-8 w-auto">
+                    </div>
+                    <p class="text-sm text-gray-400 mb-6">The premier shopping destination in Mpumalanga offering the best in fashion, food, and fun.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="toggleModal(true)" class="hover:text-[#3f8abe] transition text-left">Store Directory</button></li>
+                        <li><a href="movies.html" class="hover:text-[#3f8abe] transition">Movies & Cinema</a></li>
+                        <li><a href="#" class="hover:text-[#3f8abe] transition">Gift Cards</a></li>
+                        <li><a href="#" class="hover:text-[#3f8abe] transition">Promotions</a></li>
+                        <li><a href="#" class="hover:text-[#3f8abe] transition">Careers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Contact Us</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-location-dot mt-1 mr-3 text-[#3f8abe]"></i>
+                            <span>Louwrens Muller St,<br>Secunda, 2302</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-phone mr-3 text-[#3f8abe]"></i>
+                            <span>+27 17 634 6565</span> <!-- Fake generic number for example -->
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa-solid fa-envelope mr-3 text-[#3f8abe]"></i>
+                            <span>info@secundamall.co.za</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Newsletter</h3>
+                    <p class="text-sm text-gray-400 mb-4">Subscribe to get the latest updates and promotions.</p>
+                    <form onsubmit="event.preventDefault(); alert('Subscribed!');" class="flex flex-col space-y-2">
+                        <input type="email" placeholder="Your email address" class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-[#3f8abe]">
+                        <button type="submit" class="bg-[#3f8abe] text-white px-4 py-2 rounded hover:bg-[#2c668f] transition font-medium">Subscribe</button>
+                    </form>
                 </div>
             </div>
-        </section>-->
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-500">
+                <p>&copy; <span id="year"></span> Secunda Mall. All rights reserved.</p>
+            </div>
+            <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+        </div>
+    </footer>
 
-        <!-- Social Media & Newsletter -->
-        <section class="py-16 md:py-24 bg-white overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Social Media -->
-                    <div class="gsap-fade-in-left">
-                        <h2 class="text-3xl font-bold mb-6 text-gray-900">Connect With Us</h2>
-                        <p class="text-gray-600 mb-8">Follow us on social media for the latest news, promotions, and events at Secunda Mall.</p>
-                        
-                        <div class="flex gap-4 mb-8">
-                            <a href="#" class="social-link facebook" aria-label="Facebook">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-link instagram" aria-label="Instagram">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                            <a href="#" class="social-link twitter" aria-label="Twitter">
-                                <i class="fa-brands fa-twitter"></i>
-                            </a>
-                            <a href="#" class="social-link youtube" aria-label="YouTube">
-                                <i class="fa-brands fa-youtube"></i>
-                            </a>
-                        </div>
-                        
-                        <div class="bg-gray-50 rounded-xl p-6">
-                            <h4 class="font-bold text-gray-900 mb-2">Social Media Tags</h4>
-                            <p class="text-gray-600 mb-4">Use these hashtags when you visit:</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">#SecundaMall</span>
-                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">#MyMallMySpace</span>
-                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">#SecundaShopping</span>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Stores Modal -->
+    <div id="stores-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h3 class="text-2xl font-bold text-gray-900">Store Directory</h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-red-500 transition">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="space-y-8">
                     
-                    <!-- Newsletter -->
-                    <div class="gsap-fade-in-right">
-                        <h2 class="text-3xl font-bold mb-6 text-gray-900">Stay Updated</h2>
-                        <p class="text-gray-600 mb-8">Subscribe to our newsletter for exclusive offers, event announcements, and the latest news.</p>
-                        
-                        <div class="bg-gradient-to-br from-[#3f8abe] to-[#12304a] rounded-2xl p-8 text-white">
-                            <h3 class="text-2xl font-bold mb-4">Subscribe to Our Newsletter</h3>
-                            <p class="text-white/90 mb-6">Be the first to know about sales, new stores, and special events.</p>
-                            
-                            <form id="newsletterForm" onsubmit="event.preventDefault(); subscribeNewsletter();" class="mb-6">
-                                <div class="flex flex-col sm:flex-row gap-3">
-                                    <input type="email" placeholder="Enter your email address" 
-                                           class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white">
-                                    <button type="submit" class="bg-white text-[#3f8abe] px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
-                                        Subscribe
-                                    </button>
+                    <!-- Audio/Electronic, PC, Cellphone & Photo -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Audio/Electronic, PC, Cellphone & Photo</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=3@1" alt="3@1" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">3@1</h5>
+                                    <p class="text-xs text-gray-500">Shop LG20A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0829585014" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (082) 958 5014</a>
+                                    </div>
                                 </div>
-                            </form>
-                            
-                            <div class="text-sm text-white/80">
-                                <i class="fa-solid fa-lock mr-1"></i> We respect your privacy. Unsubscribe at any time.
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=AC" alt="Ackermans Connect" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Ackermans Connect</h5>
+                                    <p class="text-xs text-gray-500">Shop LG 23A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176311293" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 1293</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Fixed" alt="Fixed" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Fixed</h5>
+                                    <p class="text-xs text-gray-500">Shop LG15</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0768313913" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (076) 831 3913</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=FF" alt="Foto Fame" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Foto Fame</h5>
+                                    <p class="text-xs text-gray-500">Shop KS 02</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0642625986" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (064) 262 5986</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=HiFi" alt="HiFi Corp" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">HiFi Corp</h5>
+                                    <p class="text-xs text-gray-500">Shop LG08</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0874630146" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 463 0146</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=IC" alt="Incredible Connection" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Incredible Connection</h5>
+                                    <p class="text-xs text-gray-500">Shop LG07</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0101331020" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (010) 133 1020</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=MK" alt="Mobile Kafe" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Mobile Kafe</h5>
+                                    <p class="text-xs text-gray-500">Shop LG11A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0729229222" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (072) 922 9222</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=MTN" alt="MTN" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">MTN</h5>
+                                    <p class="text-xs text-gray-500">Shop LG28</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0838696962" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (083) 869 6962</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Telkom" alt="Telkom" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Telkom</h5>
+                                    <p class="text-xs text-gray-500">Shop LG33B</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176311100" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 1100</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Vodacom" alt="Vodacom" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Vodacom</h5>
+                                    <p class="text-xs text-gray-500">Shop LG17</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176348055" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 8055</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Vodacom" alt="Vodacom 4 U" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Vodacom 4 U</h5>
+                                    <p class="text-xs text-gray-500">Shop LG 06A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176345551" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 5551</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banks, Forex & Financial -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Banks, Forex & Financial</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=ABSA" alt="ABSA Bank" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">ABSA Bank</h5>
+                                    <p class="text-xs text-gray-500">Shop LG32</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176349600" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 9600</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=African" alt="African Bank" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">African Bank</h5>
+                                    <p class="text-xs text-gray-500">Shop LG21</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176344460" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 4460</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Capitec" alt="Capitec Bank" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Capitec Bank</h5>
+                                    <p class="text-xs text-gray-500">Shop LG25</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176341592" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 1592</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=FNB" alt="FNB Branch" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">First National Bank Branch</h5>
+                                    <p class="text-xs text-gray-500">Shop LG20E</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0873450230" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 345 0230</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Nedbank" alt="Nedbank" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Nedbank</h5>
+                                    <p class="text-xs text-gray-500">Shop LG03</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176317400" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 7400</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Books and Stationery -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Books and Stationery</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Books" alt="Bargain Books" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Bargain Books</h5>
+                                    <p class="text-xs text-gray-500">Shop LG18</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176311123" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 1123</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clothing -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Clothing</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Ackermans -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Ack" alt="Ackermans" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Ackermans</h5>
+                                    <p class="text-xs text-gray-500">Shop LG29</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176345227" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 5227</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Crossover -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Cross" alt="Crossover" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Crossover</h5>
+                                    <p class="text-xs text-gray-500">Shop UG11</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0692391198" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (069) 239 1198</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edgars -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Edgars" alt="Edgars" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Edgars</h5>
+                                    <p class="text-xs text-gray-500">Shop UG12</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0878224026" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 822 4026</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Exact! -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Exact" alt="Exact!" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Exact!</h5>
+                                    <p class="text-xs text-gray-500">Shop UG27</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316925" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6925</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Identity -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Id" alt="Identity" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Identity</h5>
+                                    <p class="text-xs text-gray-500">Shop UG23A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0811710848" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (081) 171 0848</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Imraan's Outfitters -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=IO" alt="Imraan's Outfitters" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Imraan's Outfitters</h5>
+                                    <p class="text-xs text-gray-500">Shop LG06</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176313022" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 3022</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Jet -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Jet" alt="Jet" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Jet</h5>
+                                    <p class="text-xs text-gray-500">Shop UG21</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0878224031" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 822 4031</a>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Le Coq Sportif -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=LCS" alt="Le Coq Sportif" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Le Coq Sportif</h5>
+                                    <p class="text-xs text-gray-500">Shop UG16</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0171100290" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 110 0290</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Mr Price -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=MrP" alt="Mr Price" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Mr Price</h5>
+                                    <p class="text-xs text-gray-500">Shop UG30</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176312769" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 2769</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Old Khaki -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=OK" alt="Old Khaki" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Old Khaki</h5>
+                                    <p class="text-xs text-gray-500">Shop UG29</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176342669" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 2669</a>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- PEP -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=PEP" alt="PEP" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">PEP</h5>
+                                    <p class="text-xs text-gray-500">Shop LG31</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176347546" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 7546</a>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- PnP Clothing -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=PnP" alt="Pick n Pay Clothing" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Pick n Pay Clothing</h5>
+                                    <p class="text-xs text-gray-500">Shop LG30</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176347391" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 7391</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Queenspark -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=QP" alt="Queenspark" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Queenspark</h5>
+                                    <p class="text-xs text-gray-500">Shop UG27A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176345415" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 5415</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Skipper Bar -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=SB" alt="Skipper Bar" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Skipper Bar</h5>
+                                    <p class="text-xs text-gray-500">Shop LG06B</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0100063136" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (010) 006 3136</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Studio 88 -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=S88" alt="Studio 88" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Studio 88</h5>
+                                    <p class="text-xs text-gray-500">Shop LG09</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0100063686" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (010) 006 3686</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Truworths -->
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=TW" alt="Truworths" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Truworths</h5>
+                                    <p class="text-xs text-gray-500">Shop UG13</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0811710847" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (081) 171 0847</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Department Stores -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Department Stores</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Checkers" alt="Checkers Hyper" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Checkers Hyper</h5>
+                                    <p class="text-xs text-gray-500">Shop LG01</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176319700" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 9700</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=FLM" alt="Food Lover's Market" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Food Lover's Market</h5>
+                                    <p class="text-xs text-gray-500">Shop UG36</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176344289" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 4289</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Game" alt="Game" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Game</h5>
+                                    <p class="text-xs text-gray-500">Shop LG16</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176349200" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 9200</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=PnP" alt="Pick n Pay" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Pick n Pay</h5>
+                                    <p class="text-xs text-gray-500">Shop LG20</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0877502555" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 750 2555</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Woolies" alt="Woolworths" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Woolworths</h5>
+                                    <p class="text-xs text-gray-500">Shop UG15</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176319440" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 9440</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entertainment -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Entertainment</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Cinema" alt="Ster-Kinekor" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Ster-Kinekor</h5>
+                                    <p class="text-xs text-gray-500">Shop UG02</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0870550048" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 055 0048</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eyewear & Optometrists -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Eyewear & Optometrists</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=DV" alt="Dynamic Vision" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Dynamic Vision</h5>
+                                    <p class="text-xs text-gray-500">Shop LG22</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176315804" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 5804</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Spec" alt="Spec Savers" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Spec Savers</h5>
+                                    <p class="text-xs text-gray-500">Shop LG05A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176345360" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 5360</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=WB" alt="Wouter Burger" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Wouter Burger</h5>
+                                    <p class="text-xs text-gray-500">Shop UG17</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176347691" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 7691</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fast Food -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Fast Food</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=HL" alt="Hungry Lion" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Hungry Lion</h5>
+                                    <p class="text-xs text-gray-500">Shop LG20B</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0793398491" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (079) 339 8491</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Food -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Food & Restaurants</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Cap" alt="Cappuccino's" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Cappuccino's</h5>
+                                    <p class="text-xs text-gray-500">Shop UG33</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176344134" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 4134</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=CL" alt="Chicken Licken" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Chicken Licken</h5>
+                                    <p class="text-xs text-gray-500">Shop LG34</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176312950" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 2950</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Fleish" alt="Fleisherei" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Fleisherei</h5>
+                                    <p class="text-xs text-gray-500">Shop LG36A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176344861" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 4861</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=JD" alt="John Dory's" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">John Dory's</h5>
+                                    <p class="text-xs text-gray-500">Shop UG34</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176348085" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 8085</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=King" alt="King Pie" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">King Pie</h5>
+                                    <p class="text-xs text-gray-500">Shop LG03A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0825251964" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (082) 525 1964</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Spur" alt="Oregon Spur" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Oregon Spur</h5>
+                                    <p class="text-xs text-gray-500">Shop UG01A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176343939" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 3939</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Pan" alt="Panarotti's" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Panarotti's</h5>
+                                    <p class="text-xs text-gray-500">Shop UG01</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176343062" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 3062</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Sym" alt="Symphony's Cafe" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Symphony's Cafe</h5>
+                                    <p class="text-xs text-gray-500">Shop UG18A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0799213939" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (079) 921 3939</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Daily" alt="The Daily Coffee Express" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">The Daily Coffee Express</h5>
+                                    <p class="text-xs text-gray-500">Shop UG03A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0828782145" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (082) 878 2145</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Wimpy" alt="Wimpy" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Wimpy</h5>
+                                    <p class="text-xs text-gray-500">Shop LG19</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176312087" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 2087</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footwear -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Footwear</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Bathu" alt="Bathu" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Bathu</h5>
+                                    <p class="text-xs text-gray-500">Shop LG30A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0174140011" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 414 0011</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Shoe" alt="Shoe City" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Shoe City</h5>
+                                    <p class="text-xs text-gray-500">Shop LG27A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176315029" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 5029</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=SS" alt="Side Step" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Side Step</h5>
+                                    <p class="text-xs text-gray-500">Shop UG22</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176312283" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 2283</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Spitz" alt="Spitz" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Spitz</h5>
+                                    <p class="text-xs text-gray-500">Shop UG14A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0104934046" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (010) 493 4046</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hair, Health & Beauty -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Hair, Health & Beauty</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Clicks" alt="Clicks" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Clicks</h5>
+                                    <p class="text-xs text-gray-500">Shop LG04</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176342972" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 2972</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=DisChem" alt="Dis-Chem" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Dis-Chem</h5>
+                                    <p class="text-xs text-gray-500">Shop UG35</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176349460" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 9460</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Husain" alt="Husain Fragrance" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Husain Fragrance</h5>
+                                    <p class="text-xs text-gray-500">Shop LG20D</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0743288140" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (074) 328 8140</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=LB" alt="Legends Barber" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Legends Barber</h5>
+                                    <p class="text-xs text-gray-500">Shop UG 19A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0659446359" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (065) 944 6359</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Place" alt="Placecol" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Placecol</h5>
+                                    <p class="text-xs text-gray-500">Shop 23B</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176311122" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 1122</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Sig" alt="Signature Cosmetics" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Signature Cosmetics</h5>
+                                    <p class="text-xs text-gray-500">Shop LG18A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0872348679" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 234 8679</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home & Decor -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Home & Decor</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Volpes" alt="Volpes" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Volpes</h5>
+                                    <p class="text-xs text-gray-500">Shop LG24</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0179120090" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 912 0090</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home, Decor, Interior & Furniture -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Home, Decor, Interior & Furniture</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Home" alt="@Home Living Space" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">@Home Living Space</h5>
+                                    <p class="text-xs text-gray-500">Shop UG19</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316947" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6947</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=MrPH" alt="Mr Price Home" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Mr Price Home</h5>
+                                    <p class="text-xs text-gray-500">Shop UG31</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176311880" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 1880</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=PEP" alt="PEP Home" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">PEP Home</h5>
+                                    <p class="text-xs text-gray-500">Shop LG27</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176312038" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 2038</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Sheet" alt="Sheet Street" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Sheet Street</h5>
+                                    <p class="text-xs text-gray-500">Shop LG05</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0179719355" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 971 9355</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jewellery & Accessories -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Jewellery & Accessories</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=AS" alt="American Swiss" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">American Swiss</h5>
+                                    <p class="text-xs text-gray-500">Shop UG14</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176346631" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 6631</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Lovisa" alt="Lovisa" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Lovisa</h5>
+                                    <p class="text-xs text-gray-500">Shop UG05A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176313934" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 3934</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Sterns" alt="Sterns" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Sterns</h5>
+                                    <p class="text-xs text-gray-500">Shop UG10</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316922" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6922</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Liquor Store -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Liquor Store</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Liquor" alt="Checkers Liquor" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Checkers Liquor</h5>
+                                    <p class="text-xs text-gray-500">Shop LG35</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176319700" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 9700</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Men's Wear -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Men's Wear</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Bogart" alt="Bogart Man" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Bogart Man</h5>
+                                    <p class="text-xs text-gray-500">Shop UG03</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0876250457" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 625 0457</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=KG" alt="Kurt Geiger" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Kurt Geiger</h5>
+                                    <p class="text-xs text-gray-500">Shop UG18</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0104934178" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (010) 493 4178</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Mark" alt="Markham" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Markham</h5>
+                                    <p class="text-xs text-gray-500">Shop UG26</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316929" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6929</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pet Shops -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Pet Shops</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Pet" alt="Petshop Science" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Petshop Science</h5>
+                                    <p class="text-xs text-gray-500">Shop LG33C</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176319710" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 9710</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Speciality -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Speciality</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Crazy" alt="The Crazy Store" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">The Crazy Store</h5>
+                                    <p class="text-xs text-gray-500">Shop LG20C</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0871359664" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 135 9664</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=TT" alt="TomToc" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">TomToc</h5>
+                                    <p class="text-xs text-gray-500">Shop UG16A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0686872581" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (068) 687 2581</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Veri" alt="Verimark Direct" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Verimark Direct</h5>
+                                    <p class="text-xs text-gray-500">Shop LG14</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0100010725" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (010) 001 0725</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Vuse" alt="Vuse" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Vuse</h5>
+                                    <p class="text-xs text-gray-500">Shop Kiosk 1</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0813202651" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (081) 320 2651</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sport, Outdoor, Goods & Gear -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Sport, Outdoor, Goods & Gear</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=CUM" alt="Cape Union Mart" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Cape Union Mart</h5>
+                                    <p class="text-xs text-gray-500">Shop UG05</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176347921" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 7921</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=MrPS" alt="Mr Price Sport" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Mr Price Sport</h5>
+                                    <p class="text-xs text-gray-500">Shop UG28</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176348475" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 8475</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Sport" alt="Sportscene" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Sportscene</h5>
+                                    <p class="text-xs text-gray-500">Shop UG07</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316916" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6916</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Total" alt="Totalsports" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Totalsports</h5>
+                                    <p class="text-xs text-gray-500">Shop UG24</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316934" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6934</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tailors & Repairs -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Tailors & Repairs</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=JT" alt="JT Tailors" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">JT Tailors</h5>
+                                    <p class="text-xs text-gray-500">Shop LG19A</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0834041570" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (083) 404 1570</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toys -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Toys</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Toys" alt="Toys R Us / Babies R Us" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Toys R Us / Babies R Us</h5>
+                                    <p class="text-xs text-gray-500">Shop LG11</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0872348520" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (087) 234 8520</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Womens Wear -->
+                    <div>
+                        <h4 class="font-bold text-[#3f8abe] text-xl mb-4 border-b pb-2">Womens Wear</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Con" alt="Contempo" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Contempo</h5>
+                                    <p class="text-xs text-gray-500">Shop LG26</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176343887" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 634 3887</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Fos" alt="Foschini" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Foschini</h5>
+                                    <p class="text-xs text-gray-500">Shop UG32</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316900" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6900</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=LEGIT" alt="LEGIT" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">LEGIT</h5>
+                                    <p class="text-xs text-gray-500">Shop UG23</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176314287" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 4287</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Mil" alt="Miladys" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">Miladys</h5>
+                                    <p class="text-xs text-gray-500">Shop UG20</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176312000" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 2000</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border border-gray-100">
+                                <img src="https://placehold.co/100x100/3f8abe/ffffff?text=Fix" alt="The Fix" class="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0">
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-bold text-gray-800 truncate">The Fix</h5>
+                                    <p class="text-xs text-gray-500">Shop LG12A/13</p>
+                                    <div class="flex items-center mt-1 space-x-3 text-xs">
+                                        <a href="tel:0176316955" class="text-gray-600 hover:text-[#3f8abe]"><i class="fa-solid fa-phone mr-1"></i> (017) 631 6955</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- FAQ Section
-        <section class="py-16 md:py-24 bg-gray-50 overflow-hidden">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12 gsap-fade-in">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Frequently Asked Questions</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">Quick answers to common questions about Secunda Mall</p>
-                </div>
-                
-                <div class="space-y-4 gsap-stagger-item" data-delay="0">-->
-                    <!-- FAQ Item 1 -->
-                    <!--<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="faq-question w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <span class="text-lg font-bold text-gray-900">What are the mall's operating hours?</span>
-                            <i class="fa-solid fa-chevron-down text-[#3f8abe] transition-transform"></i>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600">Secunda Mall operates from 09:00 to 18:00 Monday to Thursday, 09:00 to 19:00 on Fridays, 09:00 to 17:00 on Saturdays, and 09:00 to 15:00 on Sundays and public holidays. Individual store hours may vary.</p>
-                        </div>
-                    </div>-->
-                    
-                    <!-- FAQ Item 2 -->
-                    <!--<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="faq-question w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <span class="text-lg font-bold text-gray-900">Is there free parking available?</span>
-                            <i class="fa-solid fa-chevron-down text-[#3f8abe] transition-transform"></i>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600">Yes, we offer 2,435 free parking bays including disabled parking near all entrances, moms & tots parking, covered underground parking, and bicycle parking at Entrances 1, 3 & 4.</p>
-                        </div>
-                    </div>-->
-                    
-                    <!-- FAQ Item 3 -->
-                    <!--<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="faq-question w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <span class="text-lg font-bold text-gray-900">How can I apply for a job at Secunda Mall?</span>
-                            <i class="fa-solid fa-chevron-down text-[#3f8abe] transition-transform"></i>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600">Job opportunities are handled by individual stores. Please approach stores directly with your CV or check their websites for career opportunities. For mall management positions, email your CV to hr@secundamall.co.za.</p>
-                        </div>
-                    </div>-->
-                    
-                    <!-- FAQ Item 4 -->
-                    <!--<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="faq-question w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <span class="text-lg font-bold text-gray-900">Are there ATMs in the mall?</span>
-                            <i class="fa-solid fa-chevron-down text-[#3f8abe] transition-transform"></i>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600">Yes, we have multiple ATMs from major banks located throughout the mall, including ABSA, FNB, Nedbank, and Capitec. They're accessible during mall operating hours.</p>
-                        </div>
-                    </div>-->
-                    
-                    <!-- FAQ Item 5 -->
-                    <!--<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="faq-question w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <span class="text-lg font-bold text-gray-900">Is the mall wheelchair accessible?</span>
-                            <i class="fa-solid fa-chevron-down text-[#3f8abe] transition-transform"></i>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600">Absolutely. Secunda Mall is fully wheelchair accessible with ramps at all entrances, elevators between levels, disabled parking near every entrance, and accessible restrooms on all floors.</p>
-                        </div>
-                    </div>-->
-                    
-                    <!-- FAQ Item 6 -->
-                    <!--<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="faq-question w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 transition">
-                            <span class="text-lg font-bold text-gray-900">How do I report lost property?</span>
-                            <i class="fa-solid fa-chevron-down text-[#3f8abe] transition-transform"></i>
-                        </button>
-                        <div class="faq-answer hidden px-6 pb-6">
-                            <p class="text-gray-600">Lost property is handled by our Security Office. Please contact them at (010) 001 0257 or visit the Security Office near Entrance 3. Found items should also be handed in at the Security Office.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-12 gsap-fade-in">
-                    <p class="text-gray-600">Didn't find what you were looking for?</p>
-                    <a href="#contact-form" class="inline-flex items-center text-[#3f8abe] font-bold hover:underline mt-2">
-                        Ask us directly <i class="fa-solid fa-arrow-right ml-1"></i>
-                    </a>
-                </div>
+            <div class="p-4 border-t bg-gray-50 text-right">
+                <button id="close-modal-bottom-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition">Close</button>
             </div>
-        </section>-->
+        </div>
+    </div>
 
-        <!-- Divider -->
-        <div class="divider"></div>
-
-        <!-- Footer -->
-        <footer class="bg-gray-900 text-gray-300 py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <!-- Brand -->
-                    <div>
-                        <div class="flex items-center mb-4">
-                            <img src="https://placehold.co/600x150/111827/FFFFFF/png?text=SECUNDA+MALL" alt="Secunda Mall" class="h-8 w-auto">
-                        </div>
-                        <p class="text-sm text-gray-400 mb-6">The premier shopping destination in Mpumalanga offering the best in fashion, food, and fun.</p>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Quick Links -->
-                    <div>
-                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Quick Links</h3>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="index.html#home" class="nav-link hover:text-[#3f8abe] transition">Home</a></li>
-                            <li><a href="index.html#whatson" class="nav-link hover:text-[#3f8abe] transition">What's On</a></li>
-                            <li><a href="movies.html" class="nav-link hover:text-[#3f8abe] transition" data-transition="movies">Movies & Cinema</a></li>
-                            <li><a href="about.html" class="nav-link hover:text-[#3f8abe] transition">About Us</a></li>
-                            <li><a href="lease.html" class="nav-link hover:text-[#3f8abe] transition">Lease Space</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Contact Info -->
-                    <div>
-                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Contact Info</h3>
-                        <ul class="space-y-3 text-sm">
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-location-dot mt-1 mr-3 text-[#3f8abe]"></i>
-                                <span>Louwrens Muller St,<br>Secunda, 2302</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fa-solid fa-phone mr-3 text-[#3f8abe]"></i>
-                                <span>+27 (17) 634 6565</span>
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fa-solid fa-envelope mr-3 text-[#3f8abe]"></i>
-                                <span>info@secundamall.co.za</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Newsletter -->
-                    <div>
-                        <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Stay Connected</h3>
-                        <p class="text-sm text-gray-400 mb-4">Subscribe for the latest updates and promotions.</p>
-                        <form onsubmit="event.preventDefault(); subscribeNewsletter();" class="flex flex-col space-y-2">
-                            <input type="email" placeholder="Your email address" class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-[#3f8abe]">
-                            <button type="submit" class="bg-[#3f8abe] text-white px-4 py-2 rounded hover:bg-[#2c668f] transition font-medium">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-500">
-                    <p>&copy; <span id="year"></span> Secunda Mall. All rights reserved. | <a href="#" class="hover:text-gray-300">Privacy Policy</a> | <a href="#" class="hover:text-gray-300">Terms of Use</a></p>
-                </div>
-            </div>
-        </footer>
-
-    </div> <!-- End of .page-content -->
-
-    <!-- Add this JavaScript before the closing </body> tag -->
     <script src="script.js"></script>
 </body>
 </html>
